@@ -1,0 +1,3 @@
+rootProject.name = 'paiband'
+
+include ':app'
