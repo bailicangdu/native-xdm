@@ -1,3 +1,12 @@
+# 前言
+
+一个基于 react-native 开发的 ios，andriod 双平台运行的原生App，目前项目正在开发阶段，敬请期待。
+
+# 技术栈
+react + redux + react-native + react-native-svg + ES6/7 + react-native-chart
+
+
+
 # 项目运行
 ```
 
@@ -9,11 +18,11 @@ cd ReactNative-paiband
 
 npm install
 
+//运行 ios 版
+react-native run-ios 或者在XCode中直接打开
 
-react-native run-ios
-
-
-react-native run-android
+//运行 android 版
+react-native run-android 或者在Android Studio中直接打开
 
 
 ```
