@@ -1,6 +1,6 @@
 # 前言
 
-一个基于 react-native 开发的 ios，andriod 双平台运行的原生App，目前项目正在开发阶段，敬请期待。
+一个基于 react-native 开发的 ios，andriod 双平台运行的原生App，目前项目正在开发阶段，先出一个体验版，后续内容敬请期待。
 
 # 技术栈
 react + redux + react-native + react-native-svg + ES6/7 + react-native-chart
