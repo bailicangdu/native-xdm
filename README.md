@@ -1,19 +1,15 @@
 # 前言
 
-一个基于 react-native 开发的 ios，andriod 双平台运行的原生App，目前项目正在开发阶段，先出一个体验版，后续内容敬请期待。
-
-# 技术栈
-react + redux + react-native + react-native-svg + ES6/7 + react-native-chart + immutable
-
+外卖生态圈之 原生APP 版本，利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，目前项目还在准备阶段，后续内容敬请期待。
 
 
 # 项目运行
 ```
 
-git clone https://github.com/bailicangdu/ReactNative-paiband.git
+git clone https://github.com/bailicangdu/RN-elm.git
 
 
-cd ReactNative-paiband
+cd RN-elm
 
 
 npm install
