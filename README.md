@@ -1,6 +1,6 @@
 # 前言
 
-外卖生态圈之 原生APP 版本，利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，目前项目还在准备阶段，后续内容敬请期待。
+外卖生态圈之 原生APP 版本，利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，目前项目还在准备阶段，先占个坑，后续内容敬请期待。
 
 
 # 项目运行
