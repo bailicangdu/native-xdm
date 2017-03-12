@@ -1,15 +1,15 @@
 # 前言
 
-外卖生态圈之 原生APP 版本，利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，目前项目还在准备阶段，先占个坑，后续内容敬请期待。
+利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，此项目的样式由我自己来布局，三大外卖平台的样式都会进行参考，但不会具体模仿哪一家，好歹也是一个前端，切切图还是会的，目前项目还在准备阶段，先占个坑，后续内容敬请期待。
 
 
 # 项目运行
 ```
 
-git clone https://github.com/bailicangdu/RN-elm.git
+git clone https://github.com/bailicangdu/RN-waimai.git
 
 
-cd RN-elm
+cd RN-waimai
 
 
 npm install
