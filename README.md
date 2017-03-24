@@ -6,10 +6,10 @@
 # 项目运行
 ```
 
-git clone https://github.com/bailicangdu/RN-waimai.git
+git clone https://github.com/bailicangdu/React-Native-elm.git
 
 
-cd RN-waimai
+cd React-Native-elm
 
 
 npm install
