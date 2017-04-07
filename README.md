@@ -1,6 +1,6 @@
 # 前言
 
-利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，目前项目还在准备阶段，先占个坑，过一段时间会出一个体验版。
+利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP，体验版。
 
 
 # 项目运行
