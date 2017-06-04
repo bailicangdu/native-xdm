@@ -1,6 +1,6 @@
 # project
 
-利用 react-native 构建一个跨 IOS 和 Android 双平台的 原生APP。
+利用 react-native 构建一个模拟外卖平台的原生APP。
 
 
 # 项目运行
