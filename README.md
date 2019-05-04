@@ -4,7 +4,7 @@
 
 ## 如何运行
 
-> 在运行之前，需要搭建Flutter的运行环境[文档](https://flutter.io/docs/get-started/codelab)
+> 在运行之前，需要搭建Flutter的运行环境[文档](https://flutter.dev/docs/get-started/install)
 
 ```
 git clone https://github.com/bailicangdu/native-xdm.git
