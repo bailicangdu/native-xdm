@@ -4,8 +4,7 @@ import './define.dart';
 import './stack.dart';
 
 class Router {
-
-  Router({ this.routes }) {
+  Router({ this.routes, this.beforeEach, this.afterEach }) {
     print(routes[0]['widget']);
   }
 
@@ -20,5 +19,9 @@ class Router {
   Future pop() {
 
   }
+
+  HookHandleType beforeEach;
+
+  HookHandleType afterEach;
 
 }

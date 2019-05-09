@@ -8,6 +8,14 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
 
+  bool shouldBack = false;
+
+  @override
+  void initState() {
+    super.initState();
+    print('gallery 初始化');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
