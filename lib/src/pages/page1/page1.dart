@@ -9,6 +9,13 @@ class Page1 extends StatefulWidget {
 class _Page1State extends State<Page1> {
 
   @override
+  void initState() {
+    super.initState();
+
+    print('init page1');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -19,6 +26,7 @@ class _Page1State extends State<Page1> {
           child: Text('page1'),
           onPressed: () {
             Navigator.pushNamed(context, '/page2');
+            print(DateTime.now().millisecondsSinceEpoch);
           },
         ),
       ),

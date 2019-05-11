@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 
-class Page3 extends StatefulWidget {
+class Page5 extends StatefulWidget {
 
   @override
-  _Page3State createState() => _Page3State();
+  _Page5State createState() => _Page5State();
 }
 
-class _Page3State extends State<Page3> {
-
-  @override
-  void initState() {
-    super.initState();
-
-    print('init page3');
-  }
+class _Page5State extends State<Page5> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('page3'),
+        title: Text('page5'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('page3'),
+          child: Text('page5'),
           onPressed: () {
             // Navigator.pushNamed(context, '/gallery');
           },

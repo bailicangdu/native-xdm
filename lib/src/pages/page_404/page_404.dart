@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class NotFound extends StatefulWidget {
+class NotFoundPage extends StatefulWidget {
 
   @override
-  _NotFoundState createState() => _NotFoundState();
+  _NotFoundPageState createState() => _NotFoundPageState();
 }
 
-class _NotFoundState extends State<NotFound> {
+class _NotFoundPageState extends State<NotFoundPage> {
 
   @override
   Widget build(BuildContext context) {

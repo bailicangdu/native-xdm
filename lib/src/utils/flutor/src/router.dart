@@ -4,7 +4,13 @@ import './define.dart';
 import './stack.dart';
 
 class Router {
-  Router({ this.routes, this.beforeEach, this.afterEach }) {
+  Router({ 
+    this.routes, 
+    this.beforeEach, 
+    this.afterEach, 
+    this.onError,
+    this.transition,
+    }) {
     print(routes[0]['widget']);
   }
 
@@ -20,8 +26,12 @@ class Router {
 
   }
 
-  HookHandleType beforeEach;
+  FutureHookHandle beforeEach;
 
-  HookHandleType afterEach;
+  VoidHookHandle afterEach;
+
+  VoidCallback onError;
+
+  RouterTranstion transition;
 
 }

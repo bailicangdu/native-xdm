@@ -3,6 +3,7 @@ import 'pages/home/home.dart';
 import 'pages/gallery/gallery.dart';
 import 'pages/page1/page1.dart';
 import 'pages/page2/page2.dart';
+import 'pages/page2/page3/page3.dart';
 import 'router/router.dart';
 
 class MyApp extends StatefulWidget {
@@ -38,6 +39,9 @@ class _MyAppState extends State<MyApp> {
         if (RegExp('/page2\.\*').hasMatch(settings.name)) {
           // String param = settings.name.split('/')[2];
           builder = (BuildContext context) => Page2();
+        } else if (RegExp('/page3\.\*').hasMatch(settings.name)) {
+          // String param = settings.name.split('/')[2];
+          builder = (BuildContext context) => Page3();
         }
 
         return new MaterialPageRoute(builder: builder, settings: settings);
