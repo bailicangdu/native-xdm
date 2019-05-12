@@ -7,7 +7,7 @@ import '../pages/page2/page4/page4.dart';
 import '../pages/page2/page4/page5.dart';
 import '../pages/page_404/page_404.dart';
 
-Router router = Router(
+final Router router = Router(
   routes: [
     {
       'path': '/page1/:id',
@@ -84,18 +84,16 @@ Router router = Router(
   afterEach: (to, from) {
     
   },
-  onError: () {
-
+  onError: (FlutorException error) {
+    print(error);
   },
   transition: RouterTranstion.slideRight,
 );
 
 /**
- * router.push(context, '/page1/1?a=1&b=2', transition: RouterTranstion.slideRight);
+ * router.push(context, path: '/page1/1?a=1&b=2', transition: RouterTranstion.slideRight);
  * 
- * router.push(context, '/page1/1', query: { 'c': 3 });
- * 
- * router.push(context, '/page1/1?a=1&b=2', params: { 'id': '123' }, query: { 'c': 3 });
+ * router.push(context, path: '/page1/1', query: { 'c': 3 });
  * 
  * router.push(context, path: '/page1/1?a=1&b=2', params: { 'id': '123' }, query: { 'c': 3 });
  * 

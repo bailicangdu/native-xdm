@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           builder = (BuildContext context) => Page3();
         }
 
-        return new MaterialPageRoute(builder: builder, settings: settings);
+        return MaterialPageRoute(builder: builder, settings: settings);
       },
     );
   }

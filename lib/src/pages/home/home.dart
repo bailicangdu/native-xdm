@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../router/router.dart';
 
 class Home extends StatefulWidget {
 
@@ -20,7 +19,6 @@ class _HomeState extends State<Home> {
           child: Text('首页'),
           onPressed: () {
             Navigator.pushNamed(context, '/gallery');
-            router.push();
           },
         ),
       ),
