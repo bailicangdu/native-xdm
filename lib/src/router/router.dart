@@ -40,7 +40,7 @@ final Router router = Router(
           },
         },
         {
-          'path': '/page4',  // 匹配路径/page4
+          'path': '/page4',  // 匹配路径/page2/page4
           'name': 'page4',
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
             return Page4();
@@ -57,18 +57,21 @@ final Router router = Router(
         },
       ],
     },
-    // 重定向
-    { 
-      'path': '/page2222', 
-      'redirect': '/page2',
-    },
-    // 重定向命名路由
-    {
-      'path': '/page2222', 
-      'redirect': { 
-        'name': 'page2' 
-      },
-    },
+    // 因为我们的路由规则是强匹配，所以重定向不好写
+    // // 重定向
+    // { 
+    //   'path': '/page2222',
+    //   'redirect': {
+    //     'path': '/page2',
+    //   },
+    // },
+    // // 重定向命名路由
+    // {
+    //   'path': '/page2222', 
+    //   'redirect': { 
+    //     'name': 'page2' 
+    //   },
+    // },
     {
       'path': '*',
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {

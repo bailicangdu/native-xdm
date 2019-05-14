@@ -4,17 +4,15 @@ import './define.dart';
 import './lib.dart';
 
 class Router {
-  Router({ 
-    @required this.routes,
+  Router({
+    @required routes,
     this.beforeEach, 
     this.afterEach, 
     this.onError,
     this.transition,
-    }) {
-      print('aaaaaaaa');
-  }
+  }) : routes = RouterUtils.setRoutes(routes);
 
-  final List<Map<String, dynamic>> routes;
+  final List<RouterOption> routes;
 
   final FutureHookHandle beforeEach;
 
@@ -25,7 +23,7 @@ class Router {
   final RouterTranstion transition;
 
 
-  final RouterStack _routerStack = RouterStack();
+  // final RouterStack _routerStack = RouterStack();
 
   Future push(BuildContext context, {
     String path,
@@ -38,13 +36,15 @@ class Router {
       _handleError('the path or name is required for push method');
       return null;
     }
+    // print(routes);
     Navigator.push(context, MaterialPageRoute(
-      // settings: const RouteSettings(name: '/pesto/favorites'),
-      builder: (BuildContext context) => routes[1]['widget'](),
+      settings: const RouteSettings(name: '/pesto/favorites'),
+      builder: (BuildContext context) => routes[1]?.widget(),
     ));
     // final Route<dynamic> page = xxx;
     // final result = await Navigator.push(context, page);
     // return result;
+    return null;
   }
 
   Future replace() async {
@@ -65,7 +65,7 @@ class Router {
   // 这个有必要吗，这个是给native方法用的
   Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
-      builder: (BuildContext context) => routes[1]['widget'](), 
+      builder: (BuildContext context) => routes[1]?.widget(), 
       settings: settings,
     );
   }
