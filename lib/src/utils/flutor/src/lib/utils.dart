@@ -1,4 +1,4 @@
-import './define.dart';
+import '../define.dart';
 
 class RouterUtils {
 

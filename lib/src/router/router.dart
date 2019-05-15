@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/flutor/flutor.dart';
+import '../pages/home/home.dart';
 import '../pages/page1/page1.dart';
 import '../pages/page2/page2.dart';
 import '../pages/page2/page3/page3.dart';
@@ -9,6 +10,15 @@ import '../pages/page_404/page_404.dart';
 
 final Router router = Router(
   routes: [
+    {
+      'path': '/', // 默认路由，必填
+      'name': 'home',
+      // 引入函数是否需要是异步的以支持延迟加载库，这个待定
+      // 主要看是延迟加载是否对启动页时间有帮助
+      'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+        return Home();
+      },
+    },
     {
       'path': '/page1/:id',
       'name': 'page1',
@@ -57,21 +67,6 @@ final Router router = Router(
         },
       ],
     },
-    // 因为我们的路由规则是强匹配，所以重定向不好写
-    // // 重定向
-    // { 
-    //   'path': '/page2222',
-    //   'redirect': {
-    //     'path': '/page2',
-    //   },
-    // },
-    // // 重定向命名路由
-    // {
-    //   'path': '/page2222', 
-    //   'redirect': { 
-    //     'name': 'page2' 
-    //   },
-    // },
     {
       'path': '*',
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
@@ -80,12 +75,18 @@ final Router router = Router(
     },
   ],
   // 跳转之前，先执行全局钩子，再执行独享的钩子
-  beforeEach: (to, from) async {
+  beforeEach: (Route to, Route from) async {
     return true;
   },
   // 全局后置钩子无法阻止路由进行，所以要future没啥用
-  afterEach: (to, from) {
-    
+  afterEach: (Route to, Route from) {
+    String preRouteName = '';
+    if (from == null) {
+      preRouteName = 'null';
+    }else {
+      preRouteName = from.settings.name;
+    }
+    print('afterEach: 当前路由:' + to.settings.name + '  上一个路由:' + preRouteName);
   },
   onError: (FlutorException error) {
     print(error);

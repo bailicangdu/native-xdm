@@ -25,7 +25,7 @@ class _Page3State extends State<Page3> {
         child: RaisedButton(
           child: Text('page3'),
           onPressed: () {
-            // Navigator.pushNamed(context, '/gallery');
+            Navigator.pushReplacementNamed(context, '/page4');
           },
         ),
       ),

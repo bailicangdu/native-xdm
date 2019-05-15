@@ -1,16 +1,45 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import './define.dart';
-import './lib.dart';
+import './lib/utils.dart';
+import './lib/routerTree.dart';
 
 class Router {
-  Router({
+  static Router _instance;
+
+  factory Router({
+    @required routes,
+    beforeEach, 
+    afterEach, 
+    onError,
+    transition,
+  }) {
+    if (_instance != null) {
+      return _instance;
+    } else {
+      final Router router = new Router._internal(
+        routes: routes,
+        beforeEach: beforeEach,
+        afterEach: afterEach,
+        onError: onError,
+        transition: transition,
+      );
+
+      _instance = router;
+
+      return router;
+    }
+  }
+
+  Router._internal({
     @required routes,
     this.beforeEach, 
     this.afterEach, 
     this.onError,
     this.transition,
-  }) : routes = RouterUtils.setRoutes(routes);
+  }): routes = RouterUtils.setRoutes(routes) {
+    // RouterTree(this.routes);
+  }
 
   final List<RouterOption> routes;
 
@@ -22,14 +51,11 @@ class Router {
 
   final RouterTranstion transition;
 
-
-  // final RouterStack _routerStack = RouterStack();
-
   Future push(BuildContext context, {
     String path,
     String name,
-    Map<String, dynamic> params,
-    Map<String, dynamic> query,
+    Map<String, dynamic> params = const {},
+    Map<String, dynamic> query = const {},
     RouterTranstion transition,
   }) async {
     if (path == null && name == null) {

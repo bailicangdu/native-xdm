@@ -13,8 +13,8 @@ class RouterOption {
       assert(widget != null);
 
   final String path;
-  final WidgetHandle widget;
   final String name;
+  final WidgetHandle widget;
   final RouterTranstion transition;
   final FutureHookHandle beforeEnter;
   final FutureHookHandle beforeLeave;
@@ -33,15 +33,11 @@ class RouterOption {
   String toString() => '{path: $path, name: $name}';
 }
 
-class StackNode {
-
-}
-
 /// Future路由钩子
-typedef Future FutureHookHandle<T>(StackNode to, StackNode from);
+typedef Future FutureHookHandle<T>(Route to, Route from);
 
 /// void路由钩子
-typedef void VoidHookHandle<T>(StackNode to, StackNode from);
+typedef void VoidHookHandle<T>(Route to, Route from);
 
 /// 路由配置函数
 typedef Widget WidgetHandle<T>({ Map<String, dynamic>params, Map<String, dynamic>query });
