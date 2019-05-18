@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import './define.dart';
 import './lib/utils.dart';
-import './lib/routerTree.dart';
+import './lib/matcher.dart';
 
 class Router {
   static Router _instance;
@@ -37,11 +37,11 @@ class Router {
     this.afterEach, 
     this.onError,
     this.transition,
-  }): routes = RouterUtils.setRoutes(routes) {
-    // RouterTree(this.routes);
+  }) :routes = RouterUtils.initRoutes(routes) {
+    matcher = RouterMatcher(this.routes);
   }
 
-  final List<RouterOption> routes;
+  List<RouterOption> routes;
 
   final FutureHookHandle beforeEach;
 
@@ -50,6 +50,8 @@ class Router {
   final ExceptionHandle onError;
 
   final RouterTranstion transition;
+
+  RouterMatcher matcher;
 
   Future push(BuildContext context, {
     String path,
@@ -62,11 +64,23 @@ class Router {
       _handleError('the path or name is required for push method');
       return null;
     }
-    // print(routes);
-    Navigator.push(context, MaterialPageRoute(
-      settings: const RouteSettings(name: '/pesto/favorites'),
-      builder: (BuildContext context) => routes[1]?.widget(),
-    ));
+    MatchedRoute matchedRoute;
+    if (path != null) {
+      matchedRoute = matcher.findByPath(path);
+    }
+    if (name != null) {
+      matchedRoute = matcher.findByName(name);
+    }
+    matchedRoute.params.addAll(params);
+    matchedRoute.query.addAll(query);
+    print(matchedRoute);
+    if (matchedRoute.route != null && matchedRoute.route.widget != null) {
+      String settingName = matchedRoute.route.path;
+      Navigator.push(context, MaterialPageRoute(
+        // settings: const RouteSettings(name: settingName),
+        builder: (BuildContext context) => matchedRoute.route.widget(),
+      ));
+    }
     // final Route<dynamic> page = xxx;
     // final result = await Navigator.push(context, page);
     // return result;

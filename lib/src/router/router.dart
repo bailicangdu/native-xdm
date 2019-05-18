@@ -6,6 +6,9 @@ import '../pages/page2/page2.dart';
 import '../pages/page2/page3/page3.dart';
 import '../pages/page2/page4/page4.dart';
 import '../pages/page2/page4/page5.dart';
+import '../pages/page2/page4/page6.dart';
+import '../pages/page2/page4/page7.dart';
+import '../pages/page2/page4/page8.dart';
 import '../pages/page_404/page_404.dart';
 
 final Router router = Router(
@@ -50,29 +53,59 @@ final Router router = Router(
           },
         },
         {
-          'path': '/page4',  // 匹配路径/page2/page4
+          'path': '/:page4',  // 匹配路径/page2/:page4
           'name': 'page4',
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
             return Page4();
           },
           'children': [
             {
-              'path': 'page5', // 匹配路径/page4/page5
+              'path': 'page5', // 匹配路径/page2/:page4/page5
               'name': 'page5',
               'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
                 return Page5();
               },
+            },
+            {
+              'path': 'page6', // 匹配路径/page2/:page4/page6
+              'name': 'page6',
+              'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+                return Page6();
+              },
+              'children': [
+                {
+                  'path': ':Page7/', // 匹配路径/page2/:page4/page6/:page7
+                  'name': 'page7',
+                  'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+                    return Page7();
+                  },
+                },
+                {
+                  'path': '/:page8', // 匹配路径/page2/:page4/page6/:page8
+                  'name': 'page8',
+                  'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+                    return Page8();
+                  },
+                },
+              ],
             }
           ]
         },
+        {
+          'path': '*', // 匹配路径/page2/
+          'name': 'detaultPage2',
+          'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+            return Page2();
+          },
+        },
       ],
     },
-    {
-      'path': '*',
-      'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-        return NotFoundPage();
-      },
-    },
+    // {
+    //   'path': '*',
+    //   'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+    //     return NotFoundPage();
+    //   },
+    // },
   ],
   // 跳转之前，先执行全局钩子，再执行独享的钩子
   beforeEach: (Route to, Route from) async {
