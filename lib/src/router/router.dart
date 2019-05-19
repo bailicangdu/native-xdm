@@ -34,20 +34,21 @@ final Router router = Router(
     {
       'path': '/page2',
       'name': 'page2',
-      'transition': RouterTranstion.slideRight,
+      'transition': RouterTranstion.slideLeft,
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-        return Page2();
+        return Page2(query['entryTime']);
       },
-      'beforeEnter': (to, from) async {
+      'beforeEnter': (RouterNode to, RouterNode from) async {
         return true;
       },
-      'beforeLeave': (to, from) async {
+      'beforeLeave': (RouterNode to, RouterNode from) async {
         return true;
       },
       'children': [
         {
           'path': 'page3', // 匹配路径/page2/page3
           'name': 'page3',
+          'transition': RouterTranstion.slideBottom,
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
             return Page3();
           },
@@ -79,6 +80,14 @@ final Router router = Router(
                   'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
                     return Page7();
                   },
+                  'beforeEnter': (RouterNode to, RouterNode from) async {
+                    print('page7 beforeEnter');
+                    return true;
+                  },
+                  'beforeLeave': (RouterNode to, RouterNode from) async {
+                    print('page7 beforeLeave');
+                    return true;
+                  },
                 },
                 {
                   'path': '/:page8', // 匹配路径/page2/:page4/page6/:page8
@@ -95,36 +104,38 @@ final Router router = Router(
           'path': '*', // 匹配路径/page2/
           'name': 'detaultPage2',
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-            return Page2();
+            return Page2(query['entryTime']);
           },
         },
       ],
     },
-    // {
-    //   'path': '*',
-    //   'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-    //     return NotFoundPage();
-    //   },
-    // },
+    {
+      'path': '*',
+      'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+        return NotFoundPage();
+      },
+    },
   ],
   // 跳转之前，先执行全局钩子，再执行独享的钩子
-  beforeEach: (Route to, Route from) async {
+  beforeEach: (RouterNode to, RouterNode from) async {
+    print('beforeEach: 当前路由:' + to.path + '  上一个路由:' + from.path);
     return true;
   },
   // 全局后置钩子无法阻止路由进行，所以要future没啥用
-  afterEach: (Route to, Route from) {
+  afterEach: (RouterNode to, RouterNode from) {
     String preRouteName = '';
-    if (from == null) {
+    if (from.route == null) {
       preRouteName = 'null';
     }else {
-      preRouteName = from.settings.name;
+      preRouteName = from.route.settings.name;
     }
-    print('afterEach: 当前路由:' + to.settings.name + '  上一个路由:' + preRouteName);
+    print('afterEach: 当前路由:' + to.route.settings.name + '  上一个路由:' + preRouteName);
   },
   onError: (FlutorException error) {
     print(error);
   },
-  transition: RouterTranstion.slideRight,
+  transition: RouterTranstion.fadeIn,
+
 );
 
 /**

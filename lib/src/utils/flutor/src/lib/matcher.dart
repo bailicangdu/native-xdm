@@ -25,20 +25,20 @@ class RouterMatcher {
     String queryStr = '';
     if (path.contains('?')) {
       final List<String> splitPath = path.split('?');
-      path = ('/' + splitPath[0]).replaceAll(RegExp(r'//'), '/').trim();
+      path = splitPath[0];
       queryStr = splitPath[1];
     }
-    Map<String, dynamic> query = RouterUtils.formatQuery(queryStr);
+    path = ('/' + path).replaceAll(RegExp(r'//'), '/').trim();
     if (path.endsWith('/') && path != Navigator.defaultRouteName) {
       path = path.replaceAll(RegExp(r'/$'), '');
     }
 
     RouterOption targetRoute = _matchPath(path, routes);
     Map<String, dynamic>params = _getPathPrams(path, targetRoute);
-    return MatchedRoute(targetRoute, params: params, query: query);
+    return MatchedRoute(targetRoute, params: params, query: RouterUtils.formatQuery(queryStr));
   }
 
-  // 我感觉这个匹配规则还是有点问题的，但是因为我中午没睡，所以现在脑子不太好使，明天再来检查
+  // 我感觉这个匹配规则还是有点问题的，但是因为我中午没睡，所以现在脑子不太好使，以后再来检查
   _matchPath(String path, List<RouterOption> routes) {
     RouterOption targetRoute;
     RouterOption defaultRoute;

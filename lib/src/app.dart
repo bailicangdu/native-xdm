@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
           builder = (BuildContext context) => Page1();
         } else if (RegExp('/page2\.\*').hasMatch(settings.name)) {
           // String param = settings.name.split('/')[2];
-          builder = (BuildContext context) => Page2();
+          builder = (BuildContext context) => Page2(settings.arguments);
         } else if (RegExp('/page3\.\*').hasMatch(settings.name)) {
           // String param = settings.name.split('/')[2];
           builder = (BuildContext context) => Page3();

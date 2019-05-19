@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../router/router.dart';
 
 class Page8 extends StatefulWidget {
 
@@ -18,7 +19,7 @@ class _Page8State extends State<Page8> {
         child: RaisedButton(
           child: Text('page8'),
           onPressed: () {
-            // Navigator.pushNamed(context, '/gallery');
+            router.pop(context);
           },
         ),
       ),
