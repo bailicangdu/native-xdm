@@ -216,12 +216,12 @@ class Router {
         result = await lastPage.flutorRoute.route.beforeLeave(nextPage, lastPage);
         if (result != true) return false;
       }
-      if (nextPage.flutorRoute != null && nextPage.flutorRoute.route.beforeEnter != null) {
-        result = await nextPage.flutorRoute.route.beforeEnter(nextPage, lastPage);
-        if (result != true) return false;
-      }
       if (beforeEach != null) {
         result = await beforeEach(nextPage, lastPage);
+        if (result != true) return false;
+      }
+      if (nextPage.flutorRoute != null && nextPage.flutorRoute.route.beforeEnter != null) {
+        result = await nextPage.flutorRoute.route.beforeEnter(nextPage, lastPage);
         if (result != true) return false;
       }
     } else {
@@ -249,7 +249,7 @@ class Router {
       child: matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
     );
     if (
-      !(transition is RouterTranstion) 
+      !(transition is RouterTranstion)
       || transition == RouterTranstion.auto
       || (transition == RouterTranstion.custom && transitionsBuilder == null)
     ) {
@@ -261,7 +261,6 @@ class Router {
       RouteTransitionsBuilder flutorTranstionBuilder;
       Duration duration = transitionDuration ?? const Duration(milliseconds: 300);
       if (transition == RouterTranstion.custom) {
-        
         flutorTranstionBuilder = transitionsBuilder;
       } else {
         flutorTranstionBuilder = _getTransitionsBuilder(transition);
@@ -331,12 +330,31 @@ class Router {
       }
   }
 
-  // 这个有必要吗，这个是给native方法用的
+  // 主要是为了匹配首页地址，也就是 '/'
+  // 这里只做简单的匹配，虽然可以做到和使用上面方法一样的效果，但是没必要，而且容易出问题，比如：异步
   Route<dynamic> generateRoute(RouteSettings settings) {
-    return MaterialPageRoute(
-      builder: (BuildContext context) => routes[1]?.widget(), 
-      settings: settings,
+    MatchedRoute matchedRoute = _findMatchedRouter(
+      path: settings.name,
     );
+    if (matchedRoute.route != null && matchedRoute.route.widget != null) {
+      activeRoute = matchedRoute;
+      return MaterialPageRoute(
+        builder: (BuildContext context) => matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
+        settings: settings,
+      );
+    } else {
+      return MaterialPageRoute(
+        builder: (BuildContext context) => Scaffold(
+          appBar: AppBar(
+            title: Text('404'),
+          ),
+          body: Center(
+            child: Text('page not found'),
+          ),
+        ), 
+        settings: settings,
+      );
+    }
   }
 
 }

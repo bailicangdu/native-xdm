@@ -21,6 +21,31 @@ final Router router = Router(
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
         return Home();
       },
+      // 问题：在初始化app时，transition和beforeEnter是不会触发的
+      'transition': RouterTranstion.custom,
+      'transitionDuration': Duration(milliseconds: 1000),
+      'transitionsBuilder': (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation, 
+        Widget child,
+      ) {
+        return ScaleTransition(
+          scale: animation,
+          child: new RotationTransition(
+            turns: animation,
+            child: child,
+          ),
+        );
+      },
+      'beforeEnter': (RouterNode to, RouterNode from) async {
+        print('home beforeEnter');
+        return true;
+      },
+      'beforeLeave': (RouterNode to, RouterNode from) async {
+        print('home beforeLeave');
+        return true;
+      },
     },
     {
       'path': '/page1/:id',
@@ -36,7 +61,7 @@ final Router router = Router(
       'name': 'page2',
       'transition': RouterTranstion.slideLeft,
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-        return Page2(query['entryTime']);
+        return Page2(entryTime: query['entryTime']);
       },
       'beforeEnter': (RouterNode to, RouterNode from) async {
         return true;
@@ -48,9 +73,32 @@ final Router router = Router(
         {
           'path': 'page3', // 匹配路径/page2/page3
           'name': 'page3',
-          'transition': RouterTranstion.slideBottom,
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
             return Page3();
+          },
+          'transition': RouterTranstion.custom,
+          'transitionDuration': Duration(milliseconds: 1000),
+          'transitionsBuilder': (
+            BuildContext context, 
+            Animation<double> animation,
+            Animation<double> secondaryAnimation, 
+            Widget child,
+          ) {
+            return ScaleTransition(
+              scale: animation,
+              child: new RotationTransition(
+                turns: animation,
+                child: child,
+              ),
+            );
+          },
+          'beforeEnter': (RouterNode to, RouterNode from) async {
+            print('page3 beforeEnter');
+            return true;
+          },
+          'beforeLeave': (RouterNode to, RouterNode from) async {
+            print('page3 beforeLeave');
+            return true;
           },
         },
         {
@@ -65,6 +113,14 @@ final Router router = Router(
               'name': 'page5',
               'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
                 return Page5();
+              },
+              'beforeEnter': (RouterNode to, RouterNode from) async {
+                print('page5 beforeEnter');
+                return true;
+              },
+              'beforeLeave': (RouterNode to, RouterNode from) async {
+                print('page5 beforeLeave');
+                return true;
               },
             },
             {
@@ -104,7 +160,7 @@ final Router router = Router(
           'path': '*', // 匹配路径/page2/
           'name': 'detaultPage2',
           'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-            return Page2(query['entryTime']);
+            return Page2(entryTime: query['entryTime']);
           },
         },
       ],
@@ -134,8 +190,7 @@ final Router router = Router(
   onError: (FlutorException error) {
     print(error);
   },
-  transition: RouterTranstion.fadeIn,
-
+  transition: RouterTranstion.slideLeft,
 );
 
 /**

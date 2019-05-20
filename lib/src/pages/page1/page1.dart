@@ -32,6 +32,12 @@ class _Page1State extends State<Page1> {
               },
             ),
             RaisedButton(
+              child: Text('通过原生方法跳转page2xxxx'),
+              onPressed: () {
+                Navigator.pushNamed(context, 'xxx', arguments: DateTime.now().millisecondsSinceEpoch);
+              },
+            ),
+            RaisedButton(
               child: Text('通过name跳转page2'),
               onPressed: () {
                 router.push(context, name: 'page2', query: { 'entryTime': DateTime.now().millisecondsSinceEpoch });
@@ -47,6 +53,12 @@ class _Page1State extends State<Page1> {
               child: Text('通过name跳转page7'),
               onPressed: () {
                 router.push(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
+              },
+            ),
+            RaisedButton(
+              child: Text('通过name跳转home'),
+              onPressed: () {
+                router.push(context, name: 'home');
               },
             ),
           ],

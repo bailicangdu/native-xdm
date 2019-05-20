@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Page2 extends StatefulWidget {
-  Page2(this.entryTime);
+  Page2({this.entryTime});
   final int entryTime;
 
   @override
@@ -15,7 +15,9 @@ class _Page2State extends State<Page2> {
     super.initState();
 
     print('init page2');
-    print(DateTime.now().millisecondsSinceEpoch - widget.entryTime);
+    if (widget.entryTime != null) {
+      print(DateTime.now().millisecondsSinceEpoch - widget.entryTime);
+    }
   }
 
   @override

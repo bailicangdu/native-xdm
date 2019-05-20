@@ -35,24 +35,7 @@ class _MyAppState extends State<MyApp> {
       // },
       // settings是在Navigator.pushNamed调用时传入的对象，其中name就是传入的地址
       // 动态生成路由
-      onGenerateRoute: (RouteSettings settings) {
-        print(settings);
-        WidgetBuilder builder;
-        if (settings.name == '/') {
-          builder = (BuildContext context) => Page1();
-        } else if (RegExp('/page2\.\*').hasMatch(settings.name)) {
-          // String param = settings.name.split('/')[2];
-          builder = (BuildContext context) => Page2(settings.arguments);
-        } else if (RegExp('/page3\.\*').hasMatch(settings.name)) {
-          // String param = settings.name.split('/')[2];
-          builder = (BuildContext context) => Page3();
-        } else if (RegExp('/page4\.\*').hasMatch(settings.name)) {
-          // String param = settings.name.split('/')[2];
-          builder = (BuildContext context) => Page4();
-        }
-
-        return MaterialPageRoute(builder: builder, settings: settings);
-      },
+      onGenerateRoute: router.generateRoute,
       navigatorObservers: [
         FlutorObserver(router), // 导航监听
       ],
