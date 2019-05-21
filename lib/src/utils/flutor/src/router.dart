@@ -4,9 +4,12 @@ import './define.dart';
 import './lib/utils.dart';
 import './lib/matcher.dart';
 
+/// 路由树根据传入的rotues数组决定，并根据path生成正则
+/// flutor的主要匹配方式是正则
 class Router {
   static Router _instance;
 
+  /// 工厂函数，每个实例返回同一个对象
   factory Router({
     @required routes,
     beforeEach, 
@@ -35,6 +38,7 @@ class Router {
     }
   }
 
+  /// 实例化
   Router._internal({
     @required routes,
     this.beforeEach, 
@@ -43,8 +47,7 @@ class Router {
     transition,
     transitionsBuilder,
     transitionDuration,
-  }) 
-    : routes = RouterUtils.initRoutes(routes),
+  }) : routes = RouterUtils.initRoutes(routes),
     globalTransition = transition,
     globalTransitionsBuilder = transitionsBuilder,
     globalTransitionDuration= transitionDuration
@@ -52,26 +55,38 @@ class Router {
     matcher = RouterMatcher(this.routes);
   }
 
-  List<RouterOption> routes;
+  /// 路由树，[RouterOption] 的实例数组
+  List<RouterOption> routes; 
 
-  final FutureHookHandle beforeEach;
+  /// 全局路由钩子，在跳转之前调用，返回false会阻碍路由跳转
+  final FutureHookHandle beforeEach; 
 
-  final VoidHookHandle afterEach;
+  /// 全局路由钩子，在跳转之后调用，不会阻碍路由跳转
+  final VoidHookHandle afterEach; 
 
-  final ExceptionHandle onError;
+  /// 错误日志上报回调
+  final ExceptionHandle onError; 
 
-  RouterTranstion globalTransition;
+  /// 全局路由动画
+  RouterTranstion globalTransition; 
 
-  RouteTransitionsBuilder globalTransitionsBuilder;
+  /// 自定义全局路由动画，只有路由动画为custom时有效
+  RouteTransitionsBuilder globalTransitionsBuilder; 
 
-   Duration globalTransitionDuration;
+  /// 自定义全局路由动画执行时间
+  Duration globalTransitionDuration; 
 
-  RouterMatcher matcher;
+  // 路由匹配
+  RouterMatcher matcher; 
 
+  /// 路由堆栈
   List<RouterNode> routeStack = [];
 
+  /// 当前路由，放入路由堆栈后置空
   MatchedRoute activeRoute;
 
+  /// 将路由推入堆栈，支持path，name方式查询路由
+  /// 支持传入 params，query 对象，和设置动画效果
   Future push(BuildContext context, {
     String path,
     String name,
@@ -92,6 +107,7 @@ class Router {
     );
   }
 
+  /// 同上
   Future replace(BuildContext context, {
     String path,
     String name,
@@ -113,6 +129,7 @@ class Router {
     );
   }
 
+  /// 推出堆栈
   Future pop(BuildContext context, [dynamic data]) async {
     var result = await _handlePopHook();
     if (result != true) {
@@ -142,11 +159,12 @@ class Router {
     MatchedRoute matchedRoute = _findMatchedRouter(
       path: path, 
       name: name, 
-      params: params, 
+      params: params,
       query: query,
     );
     var backData;
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
+
       Route nextPage = MaterialPageRoute(
         settings: RouteSettings(name: path ?? name),
         builder: (BuildContext context) => matchedRoute.route.widget(),
@@ -154,6 +172,8 @@ class Router {
       if (routeStack.isNotEmpty) {
         RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
         RouterNode lastRouteNode = routeStack[routeStack.length - 1];
+        /// 执行路由钩子
+        /// 执行顺序：beforeLeave ==> beforeEach ==> beforeEnter ==> afterEach
         if (lastRouteNode.flutorRoute != null && lastRouteNode.flutorRoute.route.beforeLeave != null) {
           var leaveResult = await lastRouteNode.flutorRoute.route.beforeLeave(nextRouteNode, lastRouteNode);
           if (leaveResult != true) return null;
@@ -189,6 +209,7 @@ class Router {
     return backData;
   }
 
+  /// 查找node节点
   MatchedRoute _findMatchedRouter({
     String path,
     String name,
@@ -207,11 +228,13 @@ class Router {
     return matchedRoute;
   }
 
+  // 路由推出堆栈时的钩子
   Future _handlePopHook() async {
     var result = true;
     if (routeStack.isNotEmpty) {
       RouterNode lastPage = routeStack[routeStack.length - 1];
       RouterNode nextPage = routeStack[routeStack.length - 2];
+      /// 执行顺序：beforeLeave ==> beforeEach ==> beforeEnter ==> afterEach
       if (lastPage.flutorRoute != null && lastPage.flutorRoute.route.beforeLeave != null) {
         result = await lastPage.flutorRoute.route.beforeLeave(nextPage, lastPage);
         if (result != true) return false;
@@ -230,11 +253,13 @@ class Router {
     return result;
   }
 
+  /// 获取执行动画
   Route _getTransitionRoute(RouteSettings setttings, MatchedRoute matchedRoute, {
     RouterTranstion transition,
     RouteTransitionsBuilder transitionsBuilder,
     Duration transitionDuration,
   }) {
+    /// 动画优先级 方法传入 > route配置 > 全局
     transition = transition ?? matchedRoute.route.transition ?? globalTransition;
 
     transitionsBuilder = transitionsBuilder ?? matchedRoute.route.transitionsBuilder ?? globalTransitionsBuilder;
@@ -242,7 +267,8 @@ class Router {
     transitionDuration = transitionDuration ?? matchedRoute.route.transitionDuration ?? globalTransitionDuration;
 
     Route nextPage;
-    Widget scopeWidget = WillPopScope( // 阻拦导航和物理返回
+    /// WillPopScope 阻拦导航和物理返回
+    Widget scopeWidget = WillPopScope( 
       onWillPop: () async {
         return await _handlePopHook();
       },
@@ -260,6 +286,7 @@ class Router {
     } else {
       RouteTransitionsBuilder flutorTranstionBuilder;
       Duration duration = transitionDuration ?? const Duration(milliseconds: 300);
+      // 自定义动画采用传入的 transitionsBuilder
       if (transition == RouterTranstion.custom) {
         flutorTranstionBuilder = transitionsBuilder;
       } else {
@@ -285,6 +312,7 @@ class Router {
     return nextPage;
   }
 
+  /// 制定动画类型
   RouteTransitionsBuilder _getTransitionsBuilder(RouterTranstion transition) {
     RouteTransitionsBuilder builder = (
       BuildContext context,
@@ -331,7 +359,7 @@ class Router {
   }
 
   // 主要是为了匹配首页地址，也就是 '/'
-  // 这里只做简单的匹配，虽然可以做到和使用上面方法一样的效果，但是没必要，而且容易出问题，比如：异步
+  // 这里只做简单的匹配，默认风格跳转，虽然可以做到和使用上面方法一样的效果，但是没必要，而且容易出问题，比如：异步
   Route<dynamic> generateRoute(RouteSettings settings) {
     MatchedRoute matchedRoute = _findMatchedRouter(
       path: settings.name,
@@ -343,6 +371,7 @@ class Router {
         settings: settings,
       );
     } else {
+      // 默认错误页
       return MaterialPageRoute(
         builder: (BuildContext context) => Scaffold(
           appBar: AppBar(
@@ -356,5 +385,4 @@ class Router {
       );
     }
   }
-
 }

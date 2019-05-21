@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../define.dart';
 import './utils.dart';
 
+/// 路由匹配
 class RouterMatcher {
   RouterMatcher(this.routes) {
     getNamedStack(routes);
@@ -10,6 +11,7 @@ class RouterMatcher {
   Map<String, RouterOption> namedStack = {};
   final List<RouterOption>routes;
 
+  /// 查找命名路由，如果名称相同，则覆盖
   void getNamedStack(List<RouterOption>routes) {
     for (RouterOption route in routes) {
       if (route.name != null) {
@@ -21,6 +23,7 @@ class RouterMatcher {
     }
   }
 
+  /// 通过path查找路由
   MatchedRoute findByPath(String path) {
     String queryStr = '';
     if (path.contains('?')) {
@@ -28,6 +31,7 @@ class RouterMatcher {
       path = splitPath[0];
       queryStr = splitPath[1];
     }
+    // 路由格式化
     path = ('/' + path).replaceAll(RegExp(r'//'), '/').trim();
     if (path.endsWith('/') && path != Navigator.defaultRouteName) {
       path = path.replaceAll(RegExp(r'/$'), '');
@@ -38,16 +42,19 @@ class RouterMatcher {
     return MatchedRoute(targetRoute, params: params, query: RouterUtils.formatQuery(queryStr));
   }
 
-  // 我感觉这个匹配规则还是有点问题的，但是因为我中午没睡，所以现在脑子不太好使，以后再来检查
+  // 递归匹配所有路由
   _matchPath(String path, List<RouterOption> routes) {
     RouterOption targetRoute;
     RouterOption defaultRoute;
     
     for (RouterOption route in routes) {
+      // 以 /* 结尾则为当前路由层级的默认路由
       if (route.path.endsWith('/*')) {
         defaultRoute = route;
         continue;
       }
+      /// 正则匹配成功并且完全匹配，则为目标路由
+      /// 否则递归查找子级路由，如果还没找到，则执行下一轮，如果找到则停止匹配
       if (RegExp(route.regexp).hasMatch(path)) {
         if (RegExp('${route.regexp}\$').hasMatch(path)) {
           targetRoute = route;
@@ -63,6 +70,7 @@ class RouterMatcher {
     return targetRoute ?? defaultRoute;
   }
 
+  /// 获取params
   Map<String, dynamic> _getPathPrams(String path, RouterOption route) {
     Map<String, dynamic> params = {};
     if (route == null) {
@@ -78,6 +86,7 @@ class RouterMatcher {
     return params;
   }
 
+  // 通过name查找路由
   MatchedRoute findByName(String name) {
     RouterOption defaultRoute;
     for (RouterOption route in routes) {

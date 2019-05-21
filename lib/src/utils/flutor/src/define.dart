@@ -21,7 +21,7 @@ class RouterOption {
   final List<RouterOption> children;
   final RouterTranstion transition;
   final RouteTransitionsBuilder transitionsBuilder;
-  final  Duration transitionDuration;
+  final Duration transitionDuration;
 
   String regexp;
   List<String> paramName = [];
@@ -68,6 +68,10 @@ typedef Widget WidgetHandle<T>({ Map<String, dynamic>params, Map<String, dynamic
 /// 错误处理函数
 typedef void ExceptionHandle<T>(FlutorException error);
 
+/// 可选动画类型 
+/// auto为默认类型
+/// none 没有动画
+/// custom 自定义
 enum RouterTranstion {
   auto,
   none,
@@ -78,6 +82,7 @@ enum RouterTranstion {
   custom,
 }
 
+/// flutor错误类型
 class FlutorException implements Exception {
   const FlutorException([this.msg]);
   final String msg;
@@ -85,7 +90,7 @@ class FlutorException implements Exception {
   String toString() => msg ?? 'FlutorException';
 }
 
-
+/// 匹配到的类型
 class MatchedRoute {
   MatchedRoute(this.route, { params, query }): params=params??{}, query=query??{};
   final RouterOption route;
@@ -96,6 +101,7 @@ class MatchedRoute {
   String toString() => '{route: $route, params: $params, query: $query}';
 }
 
+/// 路由节点
 class RouterNode {
   RouterNode(this.route, [this.flutorRoute]) {
     if (route != null) {

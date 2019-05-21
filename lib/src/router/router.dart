@@ -11,13 +11,21 @@ import '../pages/page2/page4/page7.dart';
 import '../pages/page2/page4/page8.dart';
 import '../pages/page_404/page_404.dart';
 
+/*
+ * 1、引入函数是否需要是异步的以支持延迟加载库，这个待定，主要看是延迟加载是否对启动页时间有帮助
+ * 
+ * 2、使用系统自带Navigator进行跳转会产生一些意想不到的问题
+ * 
+ * 3、
+ * 
+ * 
+ * 
+ */
 final Router router = Router(
   routes: [
     {
       'path': '/', // 默认路由，必填
       'name': 'home',
-      // 引入函数是否需要是异步的以支持延迟加载库，这个待定
-      // 主要看是延迟加载是否对启动页时间有帮助
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
         return Home();
       },
@@ -50,14 +58,12 @@ final Router router = Router(
     {
       'path': '/page1/:id',
       'name': 'page1',
-      // 引入函数是否需要是异步的以支持延迟加载库，这个待定
-      // 主要看是延迟加载是否对启动页时间有帮助
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
         return Page1();
       },
     },
     {
-      'path': '/page2',
+      'path': '/page2/',
       'name': 'page2',
       'transition': RouterTranstion.slideLeft,
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
@@ -77,7 +83,7 @@ final Router router = Router(
             return Page3();
           },
           'transition': RouterTranstion.custom,
-          'transitionDuration': Duration(milliseconds: 1000),
+          'transitionDuration': const Duration(milliseconds: 1000),
           'transitionsBuilder': (
             BuildContext context, 
             Animation<double> animation,
@@ -164,6 +170,18 @@ final Router router = Router(
           },
         },
       ],
+    },
+    {
+      'path': '/page/pagex',
+      'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+        return Page8();
+      },
+    },
+    {
+      'path': '/page/pagex/pagexx',
+      'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
+        return Page8();
+      },
     },
     {
       'path': '*',
