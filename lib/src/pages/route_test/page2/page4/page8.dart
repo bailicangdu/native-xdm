@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../router/router.dart';
+import 'package:xiaodemo/src/router/router.dart';
 
 class Page8 extends StatefulWidget {
 

@@ -112,9 +112,9 @@ class RouterNode {
   }
   final Route route;
   final MatchedRoute flutorRoute;
-  String path;
-  Map<String, dynamic> params;
-  Map<String, dynamic> query;
+  String path = 'null';
+  Map<String, dynamic> params = {};
+  Map<String, dynamic> query = {};
 
   @override
   String toString() => '{path: $path, params: $params, query: $query}';
