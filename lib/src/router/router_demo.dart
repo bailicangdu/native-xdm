@@ -21,7 +21,7 @@ List<Map<String, dynamic>> subRoutes =[
   {
     'path': '/page2/',
     'name': 'page2',
-    'transition': RouterTranstion.slideLeft,
+    // 'transition': RouterTranstion.slideLeft,
     'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
       return Page2(entryTime: query['entryTime']);
     },

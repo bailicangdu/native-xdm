@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../utils/flutor/flutor.dart';
 import '../pages/home/home.dart';
 import 'package:xiaodemo/src/router/router_demo.dart';
@@ -10,6 +9,10 @@ List<Map<String, dynamic>> routes = [
     'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
       return Home();
     },
+    'beforeEnter': (RouterNode to, RouterNode from) async {
+      print('beforeEnter --- home');
+      return true;
+    },
   },
 ];
 
@@ -18,7 +21,7 @@ initRoutes(routeList) {
   return routeList;
 }
 
-final Router router = Router(
+final Flutor flutor = Flutor(
   routes: initRoutes(routes),
   // 跳转之前，先执行全局钩子，再执行独享的钩子
   beforeEach: (RouterNode to, RouterNode from) async {

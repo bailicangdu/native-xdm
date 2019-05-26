@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xiaodemo/src/router/router.dart';
 
 class Page2 extends StatefulWidget {
   Page2({this.entryTime});
@@ -28,9 +29,9 @@ class _Page2State extends State<Page2> {
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('page2'),
+          child: Text('推出所有堆栈，并且返回首页'),
           onPressed: () {
-            Navigator.pushNamed(context, '/page3');
+            flutor.popNum(context, 4);
           },
         ),
       ),

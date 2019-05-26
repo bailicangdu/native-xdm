@@ -22,7 +22,7 @@ import '../pages/route_test/page_404/page_404.dart';
  * 
  * 
  */
-final Router router = Router(
+final Flutor flutor = Flutor(
   routes: [
     {
       'path': '/', // 默认路由，必填

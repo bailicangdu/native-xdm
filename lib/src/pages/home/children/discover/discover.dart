@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xiaodemo/src/model/app_model.dart';
 
 class Discover extends StatefulWidget {
   @override
@@ -18,12 +19,14 @@ class _DiscoverState extends State<Discover> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    var appModel = AppModel.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('discover')
       ),
       body: Container(
-        child: Text('discover')
+        child: Text('discover ' + appModel.count.toString() + ' ' + appModel.homeCount.toString())
       ),
     );
   }

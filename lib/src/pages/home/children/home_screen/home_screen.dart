@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xiaodemo/src/model/app_model.dart';
+import 'package:xiaodemo/src/router/router.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +15,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
     print('homescreen init');
-    print(_testnum);
   }
 
   @override
@@ -21,17 +22,24 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final AppModel appModel = AppModel.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('首页')
       ),
       body: Container(
         child: RaisedButton(
-          child: Text(_testnum.toString()),
+          child: Text(_testnum.toString() + ' ' + appModel.count.toString()+ ' ' + appModel.homeCount.toString()),
           onPressed: () {
+            appModel.increment();
+            appModel.homeIncrement();
             setState(() {
               _testnum++;
             });
+            if (_testnum % 3 == 0) {
+              flutor.push(context, name: 'page1');
+            }
           },
         ),
       ),

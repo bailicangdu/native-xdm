@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/router/router.dart';
 import 'package:xiaodemo/src/assets/icons.dart';
 import './children/home_screen/home_screen.dart';
 import './children/discover/discover.dart';
@@ -7,7 +6,6 @@ import './children/orders/orders.dart';
 import './children/personal/personal.dart';
 
 class Home extends StatefulWidget {
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -21,10 +19,11 @@ class _HomeState extends State<Home> {
     BottomNavigationBarItem(icon: Icon(XDIcons.personal), title: Text('我的')),
   ];
 
-  final _pageController = PageController();
-
   int _currentIndex = 0;
+
   List<Widget> _screenList = [HomeScreen(), Discover(), Orders(), Personal()];
+
+  final _pageController = PageController();
 
   @override
   void initState() {

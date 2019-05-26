@@ -5,7 +5,7 @@ import '../router.dart';
 /// 路由Observer
 class FlutorObserver extends NavigatorObserver {
   FlutorObserver(this.target);
-  final Router target;
+  final Flutor target;
 
   /// 每个路由节点有两部分组成：系统route对象和flutor的路由对象
   /// 为了兼容通过Navigator跳转的方式，flutor的路由对象有可能为空

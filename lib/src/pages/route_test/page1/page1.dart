@@ -40,25 +40,25 @@ class _Page1State extends State<Page1> {
             RaisedButton(
               child: Text('通过name跳转page2'),
               onPressed: () {
-                router.push(context, name: 'page2', query: { 'entryTime': DateTime.now().millisecondsSinceEpoch });
+                flutor.push(context, name: 'page2', query: { 'entryTime': DateTime.now().millisecondsSinceEpoch });
               },
             ),
             RaisedButton(
               child: Text('通过path跳转page7'),
               onPressed: () {
-                router.push(context, path: '/page2/aaa//page6/bbb?a=1&b=2', params: { 'Page7': 'ccc' }, query: { 'c': 3 });
+                flutor.push(context, path: '/page2/aaa//page6/bbb?a=1&b=2', params: { 'Page7': 'ccc' }, query: { 'c': 3 });
               },
             ),
             RaisedButton(
               child: Text('通过name跳转page7'),
               onPressed: () {
-                router.push(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
+                flutor.push(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
               },
             ),
             RaisedButton(
               child: Text('通过name跳转home'),
               onPressed: () {
-                router.push(context, name: 'home');
+                flutor.push(context, name: 'home');
               },
             ),
           ],

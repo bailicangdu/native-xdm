@@ -6,11 +6,11 @@ import './lib/matcher.dart';
 
 /// 路由树根据传入的rotues数组决定，并根据path生成正则
 /// flutor的主要匹配方式是正则
-class Router {
-  static Router _instance;
+class Flutor {
+  static Flutor _instance;
 
   /// 工厂函数，每个实例返回同一个对象
-  factory Router({
+  factory Flutor({
     @required routes,
     beforeEach, 
     afterEach, 
@@ -22,7 +22,7 @@ class Router {
     if (_instance != null) {
       return _instance;
     } else {
-      final Router router = new Router._internal(
+      final Flutor router = new Flutor._internal(
         routes: routes,
         beforeEach: beforeEach,
         afterEach: afterEach,
@@ -39,7 +39,7 @@ class Router {
   }
 
   /// 实例化
-  Router._internal({
+  Flutor._internal({
     @required routes,
     this.beforeEach, 
     this.afterEach, 
@@ -131,15 +131,43 @@ class Router {
 
   /// 推出堆栈
   Future pop(BuildContext context, [dynamic data]) async {
-    var result = await _handlePopHook();
+    final result = await _handlePopHook();
     if (result != true) {
       return false;
     }
-    if (data != null) {
-      Navigator.pop(context, data);
-    } else {
-      Navigator.pop(context);
+    Navigator.maybePop(context, data);
+  }
+
+  /// 反复执行pop 直到该函数的参数predicate返回true为止。
+  /// [times] 后退多少页
+  Future popNum(BuildContext context, [int times]) async {
+    if (!(times is int) || times > routeStack.length || times < 0) {
+      times = routeStack.length - 1;
     }
+    final result = await _handlePopHook(times: times);
+    if (result != true) {
+      return false;
+    }
+    Navigator.popUntil(context, (Route<dynamic> route) {
+      if (times is int) {
+        if (times < 1) {
+          return true;
+        } else {
+          times--;
+          return false;
+        }
+      } else {
+        if (route.settings.name == '/') {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    });
+  }
+
+  Future pushAndRemoveNum(BuildContext context,) async {
+
   }
 
   Future _navigate(BuildContext context, {
@@ -156,7 +184,7 @@ class Router {
       _throwError('the path or name is required for push method');
       return null;
     }
-    MatchedRoute matchedRoute = _findMatchedRouter(
+    final MatchedRoute matchedRoute = _findMatchedRouter(
       path: path, 
       name: name, 
       params: params,
@@ -170,8 +198,8 @@ class Router {
         builder: (BuildContext context) => matchedRoute.route.widget(),
       );
       if (routeStack.isNotEmpty) {
-        RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
-        RouterNode lastRouteNode = routeStack[routeStack.length - 1];
+        final RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
+        final RouterNode lastRouteNode = routeStack[routeStack.length - 1];
         /// 执行路由钩子
         /// 执行顺序：beforeLeave ==> beforeEach ==> beforeEnter ==> afterEach
         if (lastRouteNode.flutorRoute != null && lastRouteNode.flutorRoute.route.beforeLeave != null) {
@@ -229,11 +257,19 @@ class Router {
   }
 
   // 路由推出堆栈时的钩子
-  Future _handlePopHook() async {
+  Future _handlePopHook({
+    times = 1,
+  }) async {
     var result = true;
     if (routeStack.isNotEmpty) {
-      RouterNode lastPage = routeStack[routeStack.length - 1];
-      RouterNode nextPage = routeStack[routeStack.length - 2];
+      final RouterNode lastPage = routeStack[routeStack.length - 1];
+      // 默认后退1页
+      if (!(times is int)) {
+        times = 1;
+      }
+      // 如果后退长度大于堆栈长度，则返回首页
+      final int nextPageIndex = routeStack.length > times ? routeStack.length - (times + 1) : 0;
+      final RouterNode nextPage = routeStack[nextPageIndex];
       /// 执行顺序：beforeLeave ==> beforeEach ==> beforeEnter ==> afterEach
       if (lastPage.flutorRoute != null && lastPage.flutorRoute.route.beforeLeave != null) {
         result = await lastPage.flutorRoute.route.beforeLeave(nextPage, lastPage);
@@ -268,7 +304,7 @@ class Router {
 
     Route nextPage;
     /// WillPopScope 阻拦导航和物理返回
-    Widget scopeWidget = WillPopScope( 
+    final Widget scopeWidget = WillPopScope( 
       onWillPop: () async {
         return await _handlePopHook();
       },
@@ -361,7 +397,7 @@ class Router {
   // 主要是为了匹配首页地址，也就是 '/'
   // 这里只做简单的匹配，默认风格跳转，虽然可以做到和使用上面方法一样的效果，但是没必要，而且容易出问题，比如：异步
   Route<dynamic> generateRoute(RouteSettings settings) {
-    MatchedRoute matchedRoute = _findMatchedRouter(
+    final MatchedRoute matchedRoute = _findMatchedRouter(
       path: settings.name,
     );
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {

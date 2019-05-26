@@ -18,6 +18,7 @@ class _OrdersState extends State<Orders> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('orders')

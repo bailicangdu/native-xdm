@@ -22,62 +22,62 @@ class _Page7State extends State<Page7> {
             RaisedButton(
               child: Text('跳转page5--push'),
               onPressed: () async {
-                var result = await router.push(context, path: '/page2/123/page5');
+                var result = await flutor.push(context, path: '/page2/123/page5');
                 print(result);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--replace'),
               onPressed: () {
-                router.replace(context, path: '/page2/456/page5');
+                flutor.replace(context, path: '/page2/456/page5');
               },
             ),
             RaisedButton(
               child: Text('pop'),
               onPressed: () {
-                router.pop(context);
+                flutor.pop(context);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--none'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.none);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.none);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--auto'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.auto);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.auto);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--slideRight'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideRight);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideRight);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--slideLeft'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideLeft);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideLeft);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--slideBottom'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideBottom);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.slideBottom);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--fadeIn'),
               onPressed: () {
-                router.push(context, path: '/page2/456/page5', transition: RouterTranstion.fadeIn);
+                flutor.push(context, path: '/page2/456/page5', transition: RouterTranstion.fadeIn);
               },
             ),
             RaisedButton(
               child: Text('跳转page5--custom'),
               onPressed: () {
-                router.push(
+                flutor.push(
                   context, path: '/page2/456/page5', 
                   transition: RouterTranstion.custom, 
                   transitionsBuilder: (
@@ -100,13 +100,13 @@ class _Page7State extends State<Page7> {
             RaisedButton(
               child: Text('跳转page4--全局配置'),
               onPressed: () {
-                router.push(context, path: '/page2/xxx');
+                flutor.push(context, path: '/page2/xxx');
               },
             ),
             RaisedButton(
               child: Text('跳转page3--单独配置'),
               onPressed: () {
-                router.push(context, path: '/page2/page3');
+                flutor.push(context, path: '/page2/page3');
               },
             ),
           ],
