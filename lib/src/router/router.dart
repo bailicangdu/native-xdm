@@ -35,4 +35,5 @@ final Flutor flutor = Flutor(
   onError: (FlutorException error) {
     print(error);
   },
+  routeStyle: RouterStyle.cupertino, // 路由风格
 );

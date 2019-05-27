@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class RouterOption {
   RouterOption({
@@ -81,6 +82,39 @@ enum RouterTranstion {
   fadeIn,
   custom,
 }
+
+/// 路由风格 ios/自适应
+enum RouterStyle {
+  cupertino,
+  material,
+}
+
+Route<dynamic> flutorPageRoute({
+  @required builder,
+  title,
+  RouteSettings settings,
+  maintainState = true,
+  bool fullscreenDialog = false,
+  routeStyle,
+}) {
+  if (routeStyle == RouterStyle.cupertino) {
+    return CupertinoPageRoute(
+      builder: builder,
+      title: title,
+      settings: settings,
+      maintainState: maintainState,
+      fullscreenDialog: fullscreenDialog,
+    );
+  } else {
+    return MaterialPageRoute(
+      builder: builder,
+      settings: settings,
+      maintainState: maintainState,
+      fullscreenDialog: fullscreenDialog,
+    );
+  }
+}
+
 
 /// flutor错误类型
 class FlutorException implements Exception {

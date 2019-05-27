@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import './define.dart';
 import './lib/utils.dart';
 import './lib/matcher.dart';
 
 /// 路由树根据传入的rotues数组决定，并根据path生成正则
 /// flutor的主要匹配方式是正则
+/// 没有对弹框做处理，但是弹框也是一个路由，并且会推入堆栈。那么弹框是否会导致路由系统错乱？？？
 class Flutor {
   static Flutor _instance;
 
@@ -18,6 +20,7 @@ class Flutor {
     transition,
     transitionsBuilder,
     transitionDuration,
+    routeStyle,
   }) {
     if (_instance != null) {
       return _instance;
@@ -30,6 +33,7 @@ class Flutor {
         transition: transition,
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
+        routeStyle: routeStyle,
       );
 
       _instance = router;
@@ -47,10 +51,11 @@ class Flutor {
     transition,
     transitionsBuilder,
     transitionDuration,
+    this.routeStyle,
   }) : routes = RouterUtils.initRoutes(routes),
     globalTransition = transition,
     globalTransitionsBuilder = transitionsBuilder,
-    globalTransitionDuration= transitionDuration
+    globalTransitionDuration = transitionDuration
    {
     matcher = RouterMatcher(this.routes);
   }
@@ -65,16 +70,18 @@ class Flutor {
   final VoidHookHandle afterEach; 
 
   /// 错误日志上报回调
-  final ExceptionHandle onError; 
+  final ExceptionHandle onError;
 
   /// 全局路由动画
-  RouterTranstion globalTransition; 
+  final RouterTranstion globalTransition; 
 
   /// 自定义全局路由动画，只有路由动画为custom时有效
-  RouteTransitionsBuilder globalTransitionsBuilder; 
+  final RouteTransitionsBuilder globalTransitionsBuilder; 
 
   /// 自定义全局路由动画执行时间
-  Duration globalTransitionDuration; 
+  final Duration globalTransitionDuration; 
+
+  final RouterStyle routeStyle;
 
   // 路由匹配
   RouterMatcher matcher; 
@@ -228,9 +235,10 @@ class Flutor {
     var backData;
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
 
-      Route nextPage = MaterialPageRoute(
+      Route nextPage = flutorPageRoute(
         settings: RouteSettings(name: path ?? name),
         builder: (BuildContext context) => matchedRoute.route.widget(),
+        routeStyle: routeStyle,
       );
       if (routeStack.isNotEmpty) {
         final RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
@@ -367,9 +375,10 @@ class Flutor {
       || transition == RouterTranstion.auto
       || (transition == RouterTranstion.custom && transitionsBuilder == null)
     ) {
-      nextPage = MaterialPageRoute(
+      nextPage = flutorPageRoute(
         settings: setttings,
         builder: (BuildContext context) => scopeWidget,
+        routeStyle: routeStyle,
       );
     } else {
       RouteTransitionsBuilder flutorTranstionBuilder;
@@ -454,13 +463,16 @@ class Flutor {
     );
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
       activeRoute = matchedRoute;
-      return MaterialPageRoute(
+
+    
+      return flutorPageRoute(
         builder: (BuildContext context) => matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
         settings: settings,
+        routeStyle: routeStyle,
       );
     } else {
       // 默认错误页
-      return MaterialPageRoute(
+      return flutorPageRoute(
         builder: (BuildContext context) => Scaffold(
           appBar: AppBar(
             title: Text('404'),
@@ -470,7 +482,8 @@ class Flutor {
           ),
         ), 
         settings: settings,
+        routeStyle: routeStyle,
       );
     }
   }
-}
+}  
