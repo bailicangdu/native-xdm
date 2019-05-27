@@ -31,14 +31,15 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       body: Container(
         child: RaisedButton(
           child: Text(_testnum.toString() + ' ' + appModel.count.toString()+ ' ' + appModel.homeCount.toString()),
-          onPressed: () {
+          onPressed: ()  async {
             appModel.increment();
             appModel.homeIncrement();
-            setState(() {
+            setState((){
               _testnum++;
             });
             if (_testnum % 3 == 0) {
-              flutor.push(context, name: 'page1');
+              var data = await flutor.push(context, name: 'page1');
+              print(data);
             }
           },
         ),

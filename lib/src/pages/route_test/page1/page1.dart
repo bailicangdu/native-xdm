@@ -61,6 +61,12 @@ class _Page1State extends State<Page1> {
                 flutor.push(context, name: 'home');
               },
             ),
+            RaisedButton(
+              child: Text('通过pop跳转home'),
+              onPressed: () {
+                flutor.pop(context, '我是来自page1的返回数据');
+              },
+            ),
           ],
         )
       ),

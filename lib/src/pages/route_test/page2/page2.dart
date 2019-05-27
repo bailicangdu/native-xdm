@@ -17,7 +17,7 @@ class _Page2State extends State<Page2> {
 
     print('init page2');
     if (widget.entryTime != null) {
-      print(DateTime.now().millisecondsSinceEpoch - widget.entryTime);
+      // print(DateTime.now().millisecondsSinceEpoch - widget.entryTime);
     }
   }
 
@@ -28,12 +28,41 @@ class _Page2State extends State<Page2> {
         title: Text('page2'),
       ),
       body: Center(
-        child: RaisedButton(
-          child: Text('推出所有堆栈，并且返回首页'),
-          onPressed: () {
-            flutor.popNum(context, 4);
-          },
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              child: Text('推出所有堆栈，并且返回首页 --- popTimes'),
+              onPressed: () {
+                flutor.popTimes(context);
+              },
+            ),
+            RaisedButton(
+              child: Text('推出所有堆栈，并且返回前2页 --- popTimes'),
+              onPressed: () {
+                flutor.popTimes(context, 2);
+              },
+            ),
+            RaisedButton(
+              child: Text('推出所有堆栈，并且返回首页 --- remove'),
+              onPressed: () {
+                flutor.remove(context);
+              },
+            ),
+            RaisedButton(
+              child: Text('推出所有堆栈，并且返回前2页 --- remove'),
+              onPressed: () {
+                flutor.remove(context, 2);
+              },
+            ),
+            RaisedButton(
+              child: Text('跳转page'),
+              onPressed: () {
+                flutor.push(context, name: 'page1');
+              },
+            ),
+          ],
         ),
+
       ),
     );
   }

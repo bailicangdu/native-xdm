@@ -135,35 +135,70 @@ class Flutor {
     if (result != true) {
       return false;
     }
-    Navigator.maybePop(context, data);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context, data);
+    }
   }
 
-  /// 反复执行pop 直到该函数的参数predicate返回true为止。
+  /// 反复执行pop，执行次数为为传入的值，否则一直后退到首页
   /// [times] 后退多少页
-  Future popNum(BuildContext context, [int times]) async {
-    if (!(times is int) || times > routeStack.length || times < 0) {
-      times = routeStack.length - 1;
-    }
-    final result = await _handlePopHook(times: times);
-    if (result != true) {
+  /// 说明：
+  ///   1、如果不传times，则返回首页
+  ///   2、后退有动画效果，且只会执行一次
+  /// 
+  /// 问题：
+  ///   1、无法回传数据
+  Future popTimes(BuildContext context, [int times]) async {
+    final forData = await preformTimes(times);
+    if (forData['result'] != true) {
       return false;
     }
-    Navigator.popUntil(context, (Route<dynamic> route) {
-      if (times is int) {
-        if (times < 1) {
-          return true;
-        } else {
-          times--;
-          return false;
-        }
-      } else {
-        if (route.settings.name == '/') {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    });
+    final int stackLength = routeStack.length;
+    // 解决Navigator.popUntil的问题，如下
+    for (var i = 1; i < forData['times']; i++) {
+      var activeIndex = stackLength - (i + 1);
+      Navigator.removeRoute(context, routeStack[activeIndex].route);
+      routeStack.removeAt(activeIndex);
+    }
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+    /// Navigator.popUntil 有几个问题：
+    ///   1、pop跳转会有一个后退的动画，如果堆栈过多，同时执行会导致页面卡顿和层叠阴影。
+    ///   2、无法回传参数
+    ///   3、beforeEach只会触发一遍，而afterEach会触发多次。
+    // Navigator.popUntil(context, (Route<dynamic> route) {
+    //   if (times < 1) {
+    //     return true;
+    //   }
+    //   times--;
+    //   return false;
+    // });
+  }
+
+  /// 删除路由堆栈
+  /// 1、没有动画效果
+  /// 2、不会触发pop回调，所以需要手动调用afterEach
+  /// 3、如果不传times，则返回首页
+  Future remove(BuildContext context, [int times]) async {
+    final forData = await preformTimes(times);
+    if (forData['result'] != true) {
+      return false;
+    }
+    times = forData['times'];
+    final int stackLength = routeStack.length;
+
+    final RouterNode lastPage = routeStack[stackLength - 1];
+    final RouterNode nextPage = routeStack[stackLength - (times + 1)];
+
+    for (var i = 0; i < times; i++) {
+      var activeIndex = stackLength - (i + 1);
+      Navigator.removeRoute(context, routeStack[activeIndex].route);
+      routeStack.removeAt(activeIndex);
+    }
+    if (afterEach != null) {
+      afterEach(nextPage, lastPage);
+    }
   }
 
   Future pushAndRemoveNum(BuildContext context,) async {
@@ -255,6 +290,23 @@ class Flutor {
     matchedRoute.query.addAll(query ?? {});
     return matchedRoute;
   }
+
+  // 初始化times和执行钩子
+  Future preformTimes([int times]) async {
+  if (times is int && times < 1) {
+      _throwError('times must be larger than 1');
+      return false;
+    }
+    if (!(times is int) || times > routeStack.length) {
+      times = routeStack.length - 1;
+    }
+    final result = await _handlePopHook(times: times);
+    return {
+      'result': result,
+      'times': times,
+    };
+  }
+
 
   // 路由推出堆栈时的钩子
   Future _handlePopHook({
