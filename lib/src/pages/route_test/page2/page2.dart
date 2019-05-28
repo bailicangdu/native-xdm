@@ -39,7 +39,7 @@ class _Page2State extends State<Page2> {
             RaisedButton(
               child: Text('推出所有堆栈，并且返回前2页 --- popTimes'),
               onPressed: () {
-                flutor.popTimes(context, 2);
+                flutor.popTimes(context, times: 2);
               },
             ),
             RaisedButton(
@@ -51,7 +51,7 @@ class _Page2State extends State<Page2> {
             RaisedButton(
               child: Text('推出所有堆栈，并且返回前2页 --- remove'),
               onPressed: () {
-                flutor.remove(context, 2);
+                flutor.remove(context, times: 2);
               },
             ),
             RaisedButton(

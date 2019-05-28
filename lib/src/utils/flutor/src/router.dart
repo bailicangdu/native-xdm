@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import './define.dart';
 import './lib/utils.dart';
 import './lib/matcher.dart';
@@ -14,7 +13,7 @@ class Flutor {
   /// 工厂函数，每个实例返回同一个对象
   factory Flutor({
     @required routes,
-    beforeEach, 
+    beforeEach,
     afterEach, 
     onError,
     transition,
@@ -114,6 +113,39 @@ class Flutor {
     );
   }
 
+  /// 将路由推出堆栈并且删除前面若干路由
+  /// [times] 退出次数
+  Future pushAndRemove(BuildContext context, {
+    String path,
+    String name,
+    Map<String, dynamic> params,
+    Map<String, dynamic> query,
+    RouterTranstion transition,
+    RouteTransitionsBuilder transitionsBuilder,
+    Duration transitionDuration,
+    int times,
+  }) async {
+    // times初始化，保证times为正整数且长度不能超过堆栈长度
+    if (times is int && times < 1) {
+      _throwError('times must be larger than 1');
+      return false;
+    } else if (!(times is int)) {
+      times = 0;
+    } else if (times > routeStack.length) {
+      times = routeStack.length - 1;
+    }
+    return await _navigate(context, 
+      path: path, 
+      name: name, 
+      params: params, 
+      query: query,
+      transition: transition,
+      transitionsBuilder: transitionsBuilder,
+      transitionDuration: transitionDuration,
+      times: times,
+    );
+  }
+
   /// 同上
   Future replace(BuildContext context, {
     String path,
@@ -155,7 +187,7 @@ class Flutor {
   /// 
   /// 问题：
   ///   1、无法回传数据
-  Future popTimes(BuildContext context, [int times]) async {
+  Future popTimes(BuildContext context, { int times }) async {
     final forData = await preformTimes(times);
     if (forData['result'] != true) {
       return false;
@@ -187,7 +219,7 @@ class Flutor {
   /// 1、没有动画效果
   /// 2、不会触发pop回调，所以需要手动调用afterEach
   /// 3、如果不传times，则返回首页
-  Future remove(BuildContext context, [int times]) async {
+  Future remove(BuildContext context, { int times }) async {
     final forData = await preformTimes(times);
     if (forData['result'] != true) {
       return false;
@@ -208,10 +240,7 @@ class Flutor {
     }
   }
 
-  Future pushAndRemoveNum(BuildContext context,) async {
-
-  }
-
+  // push 和 repalce统一跳转处理
   Future _navigate(BuildContext context, {
     String path,
     String name,
@@ -221,11 +250,13 @@ class Flutor {
     RouteTransitionsBuilder transitionsBuilder,
     Duration transitionDuration = const Duration(milliseconds: 250),
     bool isReplace = false,
+    int times,
   }) async {
     if (path == null && name == null) {
       _throwError('the path or name is required for push method');
       return null;
     }
+
     final MatchedRoute matchedRoute = _findMatchedRouter(
       path: path, 
       name: name, 
@@ -234,8 +265,8 @@ class Flutor {
     );
     var backData;
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
-
-      Route nextPage = flutorPageRoute(
+      
+      Route nextPage = FlutorPageRoute(
         settings: RouteSettings(name: path ?? name),
         builder: (BuildContext context) => matchedRoute.route.widget(),
         routeStyle: routeStyle,
@@ -301,7 +332,7 @@ class Flutor {
 
   // 初始化times和执行钩子
   Future preformTimes([int times]) async {
-  if (times is int && times < 1) {
+    if (times is int && times < 1) {
       _throwError('times must be larger than 1');
       return false;
     }
@@ -375,7 +406,7 @@ class Flutor {
       || transition == RouterTranstion.auto
       || (transition == RouterTranstion.custom && transitionsBuilder == null)
     ) {
-      nextPage = flutorPageRoute(
+      nextPage = FlutorPageRoute(
         settings: setttings,
         builder: (BuildContext context) => scopeWidget,
         routeStyle: routeStyle,
@@ -465,14 +496,14 @@ class Flutor {
       activeRoute = matchedRoute;
 
     
-      return flutorPageRoute(
+      return FlutorPageRoute(
         builder: (BuildContext context) => matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
         settings: settings,
         routeStyle: routeStyle,
       );
     } else {
       // 默认错误页
-      return flutorPageRoute(
+      return FlutorPageRoute(
         builder: (BuildContext context) => Scaffold(
           appBar: AppBar(
             title: Text('404'),

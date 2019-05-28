@@ -89,7 +89,7 @@ enum RouterStyle {
   material,
 }
 
-Route<dynamic> flutorPageRoute({
+Route<dynamic> FlutorPageRoute({
   @required builder,
   title,
   RouteSettings settings,
