@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/router/router.dart';
-import 'package:xiaodemo/src/utils/flutor/flutor.dart';
+import 'package:xiaodemo/router/router.dart';
+import 'package:xiaodemo/utils/flutor/flutor.dart';
 
 class Page7 extends StatefulWidget {
 

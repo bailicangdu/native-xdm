@@ -54,7 +54,7 @@ class Flutor {
   }) : routes = RouterUtils.initRoutes(routes),
     globalTransition = transition,
     globalTransitionsBuilder = transitionsBuilder,
-    globalTransitionDuration = transitionDuration
+    globalTransitionDuration = transitionDuration ?? const Duration(milliseconds: 300)
    {
     matcher = RouterMatcher(this.routes);
   }
@@ -91,6 +91,14 @@ class Flutor {
   /// 当前路由，放入路由堆栈后置空
   MatchedRoute activeRoute;
 
+  /// 路由跳转有300ms的默认动画，且当前动画时间是可配的
+  /// 如果在动画未执行完的情况下执行另外的路由操作，有可能会导致卡顿
+  /// 解决方式：确保当前动画结束之后才可以跳转其它路由
+  Duration activeRouteDuration = const Duration(milliseconds: 400);
+
+  /// 路由入栈是否完成
+  bool isRouteComplete = true; 
+
   /// 将路由推入堆栈，支持path，name方式查询路由
   /// 支持传入 params，query 对象，和设置动画效果
   Future push(BuildContext context, {
@@ -115,6 +123,12 @@ class Flutor {
 
   /// 将路由推出堆栈并且删除前面若干路由
   /// [times] 退出次数
+  /// 说明：
+  /// 1、如果times为null，或大于堆栈长度，则推出所有堆栈并push新的页面
+  /// 2、如果times为1到堆栈长度的正数，则新路由推入堆栈并删除times个前面的路由
+  /// 3、如果times为0，则效果和push一样
+  /// 4、如果times为负数，且绝对值小于堆栈长度，则保留路由的前几位，其它路由全部推出
+  /// 5、如果times为负数，且绝对值大于堆栈长度，则效果和push一样
   Future pushAndRemove(BuildContext context, {
     String path,
     String name,
@@ -125,14 +139,12 @@ class Flutor {
     Duration transitionDuration,
     int times,
   }) async {
-    // times初始化，保证times为正整数且长度不能超过堆栈长度
-    if (times is int && times < 1) {
-      _throwError('times must be larger than 1');
-      return false;
-    } else if (!(times is int)) {
-      times = 0;
-    } else if (times > routeStack.length) {
-      times = routeStack.length - 1;
+    // times初始化，保证times为int且长度不能超过堆栈长度
+    if (!(times is int) || times > routeStack.length) {
+      times = routeStack.length;
+    } else if (times < 0) {
+      times = routeStack.length + times;
+      times = times < 0 ? 0 : times;
     }
     return await _navigate(context, 
       path: path, 
@@ -182,30 +194,37 @@ class Flutor {
   /// 反复执行pop，执行次数为为传入的值，否则一直后退到首页
   /// [times] 后退多少页
   /// 说明：
-  ///   1、如果不传times，则返回首页
-  ///   2、后退有动画效果，且只会执行一次
-  /// 
-  /// 问题：
-  ///   1、无法回传数据
+  /// 1、如果times为null，或大于堆栈长度，则推出首页外的所有堆栈，即返回首页
+  /// 2、如果times为1到堆栈长度的正数，则推出栈并最后的times个路由
+  /// 3、如果times为0，则无效果
+  /// 4、如果times为负数，且绝对值小于堆栈长度，则保留最前面的times个路由，并推出其它路由
+  /// 5、如果times为负数，且绝对值大于堆栈长度，则无效果
+  /// 6、无法回传数据
   Future popTimes(BuildContext context, { int times }) async {
+    if (!isRouteComplete) {
+      return null;
+    }
     final forData = await preformTimes(times);
     if (forData['result'] != true) {
       return false;
     }
+    times = forData['times'];
     final int stackLength = routeStack.length;
-    // 解决Navigator.popUntil的问题，如下
-    for (var i = 1; i < forData['times']; i++) {
+    
+    for (var i = 1; i < times; i++) {
       var activeIndex = stackLength - (i + 1);
       Navigator.removeRoute(context, routeStack[activeIndex].route);
       routeStack.removeAt(activeIndex);
     }
+
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     }
+    // Navigator.popUntil有几个问题，如下
+    /// 1、pop跳转会有一个后退的动画，如果堆栈过多，同时执行会导致页面卡顿和层叠阴影。
+    /// 2、无法回传参数
+    /// 3、beforeEach只会触发一遍，而afterEach会触发多次。
     /// Navigator.popUntil 有几个问题：
-    ///   1、pop跳转会有一个后退的动画，如果堆栈过多，同时执行会导致页面卡顿和层叠阴影。
-    ///   2、无法回传参数
-    ///   3、beforeEach只会触发一遍，而afterEach会触发多次。
     // Navigator.popUntil(context, (Route<dynamic> route) {
     //   if (times < 1) {
     //     return true;
@@ -216,9 +235,14 @@ class Flutor {
   }
 
   /// 删除路由堆栈
-  /// 1、没有动画效果
-  /// 2、不会触发pop回调，所以需要手动调用afterEach
-  /// 3、如果不传times，则返回首页
+  /// 说明：
+  /// 1、如果times为null，或大于堆栈长度，则推出首页外的所有堆栈，即返回首页
+  /// 2、如果times为1到堆栈长度的正数，则推出栈并最后的times个路由
+  /// 3、如果times为0，则无效果
+  /// 4、如果times为负数，且绝对值小于堆栈长度，则保留最前面的times个路由，并推出其它路由
+  /// 5、如果times为负数，且绝对值大于堆栈长度，则无效果
+  /// 6、没有动画效果
+  /// 7、不会触发pop回调，所以需要手动调用afterEach
   Future remove(BuildContext context, { int times }) async {
     final forData = await preformTimes(times);
     if (forData['result'] != true) {
@@ -248,13 +272,21 @@ class Flutor {
     Map<String, dynamic> query,
     RouterTranstion transition,
     RouteTransitionsBuilder transitionsBuilder,
-    Duration transitionDuration = const Duration(milliseconds: 250),
+    Duration transitionDuration = const Duration(milliseconds: 300),
     bool isReplace = false,
     int times,
   }) async {
     if (path == null && name == null) {
       _throwError('the path or name is required for push method');
       return null;
+    }
+
+    // 是否是 pushAndRemove
+    bool isPushAndRemove = false;
+    if (times is int) {
+      isPushAndRemove = true;
+    } else {
+      times = 0;
     }
 
     final MatchedRoute matchedRoute = _findMatchedRouter(
@@ -266,17 +298,28 @@ class Flutor {
     var backData;
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
       
+      // 下个页面
       Route nextPage = FlutorPageRoute(
         settings: RouteSettings(name: path ?? name),
         builder: (BuildContext context) => matchedRoute.route.widget(),
         routeStyle: routeStyle,
       );
       if (routeStack.isNotEmpty) {
+        // 生成路由堆栈节点
         final RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
-        final RouterNode lastRouteNode = routeStack[routeStack.length - 1];
+        RouterNode lastRouteNode;
+        if ((routeStack.length - (times + 1)) > -1) {
+          lastRouteNode = routeStack[routeStack.length - (times + 1)];
+        } else {
+          lastRouteNode = RouterNode(null);
+        }
         /// 执行路由钩子
         /// 执行顺序：beforeLeave ==> beforeEach ==> beforeEnter ==> afterEach
-        if (lastRouteNode.flutorRoute != null && lastRouteNode.flutorRoute.route.beforeLeave != null) {
+        if (
+          lastRouteNode != null && 
+          lastRouteNode.flutorRoute != null && 
+          lastRouteNode.flutorRoute.route.beforeLeave != null
+        ) {
           var leaveResult = await lastRouteNode.flutorRoute.route.beforeLeave(nextRouteNode, lastRouteNode);
           if (leaveResult != true) return null;
         }
@@ -300,8 +343,19 @@ class Flutor {
         transitionDuration: transitionDuration,
       );
       activeRoute = matchedRoute; // 将最新的路由记录下来，执行钩子的时候放入堆栈
+      getRouteStatus();
       if (isReplace) {
         backData = await Navigator.pushReplacement(context, nextPage);
+      } else if(isPushAndRemove) {
+        Navigator.push(context, nextPage);
+        Timer(activeRouteDuration, () {
+          final int stackLength = routeStack.length;
+          for (var i = 0; i < times; i++) {
+            var activeIndex = stackLength - (i + 2);
+            Navigator.removeRoute(context, routeStack[activeIndex].route);
+            routeStack.removeAt(activeIndex);
+          }
+        });
       } else {
         backData = await Navigator.push(context, nextPage);
       }
@@ -332,12 +386,21 @@ class Flutor {
 
   // 初始化times和执行钩子
   Future preformTimes([int times]) async {
-    if (times is int && times < 1) {
-      _throwError('times must be larger than 1');
-      return false;
-    }
     if (!(times is int) || times > routeStack.length) {
       times = routeStack.length - 1;
+    } else if (times < 0) {
+      times = routeStack.length + times;
+      if (times < 1) {
+        return {
+          'result': false,
+          'times': times,
+        };
+      }
+    } else if (times == 0) {
+      return {
+        'result': false,
+        'times': times,
+      };
     }
     final result = await _handlePopHook(times: times);
     return {
@@ -392,6 +455,8 @@ class Flutor {
     transitionsBuilder = transitionsBuilder ?? matchedRoute.route.transitionsBuilder ?? globalTransitionsBuilder;
 
     transitionDuration = transitionDuration ?? matchedRoute.route.transitionDuration ?? globalTransitionDuration;
+
+    activeRouteDuration = transitionDuration + const Duration(milliseconds: 100);
 
     Route nextPage;
     /// WillPopScope 阻拦导航和物理返回
@@ -486,6 +551,14 @@ class Flutor {
       }
   }
 
+  /// 路由动画是否完成
+  getRouteStatus() {
+    isRouteComplete = false;
+    Timer(activeRouteDuration, () {
+      isRouteComplete = true;
+    });
+  }
+
   // 主要是为了匹配首页地址，也就是 '/'
   // 这里只做简单的匹配，默认风格跳转，虽然可以做到和使用上面方法一样的效果，但是没必要，而且容易出问题，比如：异步
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -495,7 +568,6 @@ class Flutor {
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
       activeRoute = matchedRoute;
 
-    
       return FlutorPageRoute(
         builder: (BuildContext context) => matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
         settings: settings,

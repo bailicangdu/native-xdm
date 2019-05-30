@@ -1,6 +1,6 @@
 import '../utils/flutor/flutor.dart';
 import '../pages/home/home.dart';
-import 'package:xiaodemo/src/router/router_demo.dart';
+import 'package:xiaodemo/router/router_demo.dart';
 
 List<Map<String, dynamic>> routes = [
   {

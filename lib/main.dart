@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'src/app.dart';
+import 'app.dart';
 
 void main() {
   int a = 123;

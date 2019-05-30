@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/router/router.dart';
+import 'package:xiaodemo/router/router.dart';
 
 class Page1 extends StatefulWidget {
 
@@ -50,9 +50,9 @@ class _Page1State extends State<Page1> {
               },
             ),
             RaisedButton(
-              child: Text('通过name跳转page7'),
+              child: Text('replace --- 跳转page7'),
               onPressed: () {
-                flutor.push(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
+                flutor.replace(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
               },
             ),
             RaisedButton(

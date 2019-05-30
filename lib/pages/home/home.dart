@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/assets/icons.dart';
+import 'package:xiaodemo/assets/icons.dart';
 import './children/home_screen/home_screen.dart';
 import './children/discover/discover.dart';
 import './children/orders/orders.dart';

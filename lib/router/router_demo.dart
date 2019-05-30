@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/utils/flutor/flutor.dart';
-import 'package:xiaodemo/src/pages/route_test/page1/page1.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page2.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page3/page3.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page4/page4.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page4/page5.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page4/page6.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page4/page7.dart';
-import 'package:xiaodemo/src/pages/route_test/page2/page4/page8.dart';
-import 'package:xiaodemo/src/pages/route_test/page_404/page_404.dart';
+import 'package:xiaodemo/utils/flutor/flutor.dart';
+import 'package:xiaodemo/pages/route_test/page1/page1.dart';
+import 'package:xiaodemo/pages/route_test/page2/page2.dart';
+import 'package:xiaodemo/pages/route_test/page2/page3/page3.dart';
+import 'package:xiaodemo/pages/route_test/page2/page4/page4.dart';
+import 'package:xiaodemo/pages/route_test/page2/page4/page5.dart';
+import 'package:xiaodemo/pages/route_test/page2/page4/page6.dart';
+import 'package:xiaodemo/pages/route_test/page2/page4/page7.dart';
+import 'package:xiaodemo/pages/route_test/page2/page4/page8.dart';
+import 'package:xiaodemo/pages/route_test/page_404/page_404.dart';
 
 List<Map<String, dynamic>> subRoutes =[
   {

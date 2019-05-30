@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xiaodemo/src/model/app_model.dart';
+import 'package:xiaodemo/model/app_model.dart';
 
 class Discover extends StatefulWidget {
   @override

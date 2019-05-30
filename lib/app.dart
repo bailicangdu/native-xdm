@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'router/router.dart';
 import 'utils/flutor/flutor.dart';
-import 'package:xiaodemo/src/config/themes.dart';
+import 'package:xiaodemo/config/themes.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:xiaodemo/src/model/app_model.dart';
+import 'package:xiaodemo/model/app_model.dart';
 
 class MyApp extends StatefulWidget {
 
