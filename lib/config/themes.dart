@@ -17,6 +17,7 @@ ThemeData _buildMianTheme() {
   const Color primaryColorLight = Color(0xFF4daaff);
 
   final ThemeData data = ThemeData(
+    // platform: TargetPlatform.iOS,
     primaryColor: primaryColor, // App主要部分的背景色（ToolBar,Tabbar等）
     primaryColorDark: primaryColorDart, // primaryColor的较深版本
     primaryColorLight: primaryColorLight, // primaryColor的较浅版本

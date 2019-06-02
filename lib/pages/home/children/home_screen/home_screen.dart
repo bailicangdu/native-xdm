@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xiaodemo/model/app_model.dart';
 import 'package:xiaodemo/router/router.dart';
+import '../../../route_test/page1/page1.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -38,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               _testnum++;
             });
             if (_testnum % 3 == 0) {
-              var data = await flutor.push(context, name: 'page1');
-              print(data);
+              // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Page1()));
+              flutor.push(context, name: 'page1');
             }
           },
         ),

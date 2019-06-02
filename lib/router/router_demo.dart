@@ -31,6 +31,7 @@ List<Map<String, dynamic>> subRoutes =[
     'beforeLeave': (RouterNode to, RouterNode from) async {
       return true;
     },
+    'observeGesture': true,
     'children': [
       {
         'path': 'page3', // 匹配路径/page2/page3
@@ -84,6 +85,7 @@ List<Map<String, dynamic>> subRoutes =[
               print('page5 beforeLeave');
               return true;
             },
+            'observeGesture': true,
           },
           {
             'path': 'page6', // 匹配路径/page2/:page4/page6

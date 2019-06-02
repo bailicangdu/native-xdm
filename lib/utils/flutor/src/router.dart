@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './define.dart';
 import './lib/utils.dart';
 import './lib/matcher.dart';
+import './lib/flutor_will_pop_scope.dart';
 
 /// 路由树根据传入的rotues数组决定，并根据path生成正则
 /// flutor的主要匹配方式是正则
@@ -20,6 +21,7 @@ class Flutor {
     transitionsBuilder,
     transitionDuration,
     routeStyle,
+    observeGesture,
   }) {
     if (_instance != null) {
       return _instance;
@@ -33,6 +35,7 @@ class Flutor {
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
         routeStyle: routeStyle,
+        observeGesture: observeGesture,
       );
 
       _instance = router;
@@ -50,8 +53,10 @@ class Flutor {
     transition,
     transitionsBuilder,
     transitionDuration,
-    this.routeStyle,
-  }) : routes = RouterUtils.initRoutes(routes),
+    this.routeStyle = RouterStyle.material,
+    this.observeGesture = false,
+  }) : assert(routes != null),
+    routes = RouterUtils.initRoutes(routes),
     globalTransition = transition,
     globalTransitionsBuilder = transitionsBuilder,
     globalTransitionDuration = transitionDuration ?? const Duration(milliseconds: 300)
@@ -80,7 +85,11 @@ class Flutor {
   /// 自定义全局路由动画执行时间
   final Duration globalTransitionDuration; 
 
+  /// 路由风格，默认material
   final RouterStyle routeStyle;
+
+  /// 是否阻止手势操作，即左滑关闭页面
+  final bool observeGesture;
 
   // 路由匹配
   RouterMatcher matcher; 
@@ -459,11 +468,13 @@ class Flutor {
     activeRouteDuration = transitionDuration + const Duration(milliseconds: 100);
 
     Route nextPage;
-    /// WillPopScope 阻拦导航和物理返回
-    final Widget scopeWidget = WillPopScope( 
+    /// FlutorWillPopScope 阻拦导航和物理返回，并且会禁止手势返回操作，但不阻拦pop等方法
+    final Widget scopeWidget = FlutorWillPopScope(
       onWillPop: () async {
         return await _handlePopHook();
       },
+      matchedRoute: matchedRoute,
+      observeGesture: observeGesture,
       child: matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
     );
     if (
@@ -516,9 +527,7 @@ class Flutor {
       if (transition == RouterTranstion.fadeIn) {
         return FadeTransition(opacity: animation, child: child);
       }
-      const Offset targetPosition = const Offset(0.0, 0.0);
       Offset benginPosition;
-
       switch (transition) {
         case RouterTranstion.none:
         case RouterTranstion.slideRight:
@@ -536,7 +545,7 @@ class Flutor {
       return SlideTransition(
         position: Tween<Offset>(
           begin: benginPosition,
-          end: targetPosition,
+          end: Offset.zero,
         ).animate(animation),
         child: child,
       );
@@ -545,7 +554,7 @@ class Flutor {
   }
 
   void _throwError([String msg]) {
-    if (onError is ExceptionHandle) {
+    if (onError != null) {
         FlutorException pushError = FlutorException(msg);
         onError(pushError);
       }
@@ -589,4 +598,4 @@ class Flutor {
       );
     }
   }
-}  
+}

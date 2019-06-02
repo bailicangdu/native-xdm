@@ -12,6 +12,7 @@ class RouterOption {
     this.transition,
     this.transitionsBuilder,
     this.transitionDuration,
+    this.observeGesture = false,
   }) : assert(path != null);
 
   final String path;
@@ -23,6 +24,7 @@ class RouterOption {
   final RouterTranstion transition;
   final RouteTransitionsBuilder transitionsBuilder;
   final Duration transitionDuration;
+  final bool observeGesture;
 
   String regexp;
   List<String> paramName = [];
@@ -38,6 +40,7 @@ class RouterOption {
       transition = route['transition'],
       transitionsBuilder = route['transitionsBuilder'],
       transitionDuration = route['transitionDuration'],
+      observeGesture = route['observeGesture'] ?? false,
       regexp = route['regexp'],
       paramName = route['paramName'];
 
@@ -85,8 +88,8 @@ enum RouterTranstion {
 
 /// 路由风格 ios/自适应
 enum RouterStyle {
-  cupertino,
-  material,
+  cupertino, // ios风格，页面自右向左滑入，支持手势左滑关闭页面
+  material, // material，不同平台不同风格，ios风格如上，安卓下页面自下而上滑入，不支持手势关闭
 }
 
 Route<dynamic> FlutorPageRoute({
@@ -114,7 +117,6 @@ Route<dynamic> FlutorPageRoute({
     );
   }
 }
-
 
 /// flutor错误类型
 class FlutorException implements Exception {

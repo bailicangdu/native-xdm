@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       model: model,
       child: MaterialApp(
         title: 'xiaodemo',
-        debugShowCheckedModeBanner: false, // 去除右上角debug标签
+        // debugShowCheckedModeBanner: false, // 去除右上角debug标签
         theme: mainTheme.themeData,
         onGenerateRoute: flutor.generateRoute,
         navigatorObservers: [
