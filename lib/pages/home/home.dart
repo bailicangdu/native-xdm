@@ -65,6 +65,12 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    eventCenter.off('switchTab', _onSwitchTab);
+    super.dispose();
+  }
 }
 
 class BottomBarItem {
