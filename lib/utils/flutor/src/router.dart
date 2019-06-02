@@ -7,15 +7,13 @@ import './lib/flutor_will_pop_scope.dart';
 
 /// 路由树根据传入的rotues数组决定，并根据path生成正则
 /// flutor的主要匹配方式是正则
-/// 没有对弹框做处理，但是弹框也是一个路由，并且会推入堆栈。那么弹框是否会导致路由系统错乱？？？
 class Flutor {
   static Flutor _instance;
-
-  /// 工厂函数，每个实例返回同一个对象
+  
   factory Flutor({
     @required routes,
     beforeEach,
-    afterEach, 
+    afterEach,
     onError,
     transition,
     transitionsBuilder,
@@ -177,7 +175,7 @@ class Flutor {
     RouteTransitionsBuilder transitionsBuilder,
     Duration transitionDuration,
   }) async {
-    return await _navigate(context, 
+    return await _navigate(context,
       path: path, 
       name: name, 
       params: params, 
@@ -561,7 +559,7 @@ class Flutor {
   }
 
   /// 路由动画是否完成
-  getRouteStatus() {
+  void getRouteStatus() {
     isRouteComplete = false;
     Timer(activeRouteDuration, () {
       isRouteComplete = true;

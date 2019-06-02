@@ -42,15 +42,15 @@ class FlutorObserver extends NavigatorObserver {
     handleAfter(nextRoute, lastRoute);
   }
 
-  @override
-  void didStartUserGesture(Route route, Route previousRoute) {
-    print('开始手势操作');
-  }
+  // @override
+  // void didStartUserGesture(Route route, Route previousRoute) {
+  //   print('开始手势操作');
+  // }
 
-  @override
-  void didStopUserGesture() {
-    print('手势操作取消');
-  }
+  // @override
+  // void didStopUserGesture() {
+  //   print('手势操作取消');
+  // }
 
   /// 全局的afterEach钩子
   handleAfter(RouterNode route, RouterNode previousRoute) {

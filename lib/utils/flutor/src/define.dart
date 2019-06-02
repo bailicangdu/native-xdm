@@ -141,16 +141,18 @@ class MatchedRoute {
 class RouterNode {
   RouterNode(this.route, [this.flutorRoute]) {
     if (route != null) {
-      path = route.settings.name;
+      _path = route.settings?.name;
       params = flutorRoute?.params;
       query = flutorRoute?.query;
     }
   }
   final Route route;
   final MatchedRoute flutorRoute;
-  String path = 'null';
+  String _path;
   Map<String, dynamic> params = {};
   Map<String, dynamic> query = {};
+
+  String get path => _path ?? 'null';
 
   @override
   String toString() => '{path: $path, params: $params, query: $query}';

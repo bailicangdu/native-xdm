@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xiaodemo/router/router.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:xiaodemo/event/app_event.dart';
 
 class Page2 extends StatefulWidget {
   Page2({this.entryTime});
@@ -101,6 +103,48 @@ class _Page2State extends State<Page2> {
               child: Text('跳转page'),
               onPressed: () {
                 flutor.push(context, name: 'page1');
+              },
+            ),
+            RaisedButton(
+              child: Text('弹框'),
+              onPressed: () async {
+                var a = await showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) => CupertinoAlertDialog(
+                    title: const Text('Discard draft?'),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: const Text('Discard'),
+                        isDestructiveAction: true,
+                        onPressed: () {
+                          flutor.pop(context, 'Discard');
+                          // flutor.push(context, name: 'page1');
+                          // flutor.pushAndRemove(context, times: 1, name: 'page1');
+                        },
+                      ),
+                      CupertinoDialogAction(
+                        child: const Text('Cancel'),
+                        isDefaultAction: true,
+                        onPressed: () {
+                          Navigator.pop(context, 'Cancel');
+                        },
+                      ),
+                    ],
+                  ),
+                );
+                print(a);
+              },
+            ),
+            RaisedButton(
+              child: Text('跳转discover'),
+              onPressed: () {
+                appEvent.goDiscover(context);
+              },
+            ),
+            RaisedButton(
+              child: Text('跳转personal'),
+              onPressed: () {
+                appEvent.goPersonal(context, withAnimation: false);
               },
             ),
           ],

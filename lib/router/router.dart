@@ -34,6 +34,7 @@ final Flutor flutor = Flutor(
   },
   // 全局后置钩子无法阻止路由进行，所以要future没啥用
   afterEach: (RouterNode to, RouterNode from) {
+    print(to.route);
     print('afterEach: 当前路由: ' + to?.path + '  上一个路由: ' + from?.path);
   },
   onError: (FlutorException error) {

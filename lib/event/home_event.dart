@@ -1,9 +1,8 @@
-import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 import 'package:xiaodemo/router/router.dart';
+import 'package:xiaodemo/utils/event_center.dart';
 
-
-class HomeModel extends Model {
+class HomeEvent {
   String _homeBottomBarName = 'home';
 
   get homeBottomBarName => _homeBottomBarName;
@@ -11,33 +10,30 @@ class HomeModel extends Model {
   /// 跳转首页
   void goHome(BuildContext context, { bool withAnimation: true }) {
     _homeBottomBarName = 'home';
-    pop(context, withAnimation);
-    notifyListeners();
+    navigator(context, withAnimation);
   }
 
   /// 跳转发现页
   void goDiscover(BuildContext context, { bool withAnimation: true }) {
     _homeBottomBarName = 'discover';
-    pop(context, withAnimation);
-    notifyListeners();
+    navigator(context, withAnimation);
   }
 
   /// 跳转订单列表页
   void goOrders(BuildContext context, { bool withAnimation: true }) {
     _homeBottomBarName = 'orders';
-    pop(context, withAnimation);
-    notifyListeners();
+    navigator(context, withAnimation);
   }
 
   /// 跳转个人中心页
   void goPersonal(BuildContext context, { bool withAnimation: true }) {
     _homeBottomBarName = 'personal';
-    pop(context, withAnimation);
-    notifyListeners();
+    navigator(context, withAnimation);
   }
 
-  pop(BuildContext context, [bool withAnimation = true]) {
-  if (withAnimation) {
+  navigator(BuildContext context, [bool withAnimation = true]) {
+    eventCenter.trigger('switchTab', homeBottomBarName);
+    if (withAnimation) {
       flutor.popTimes(context);
     } else {
       flutor.remove(context);

@@ -26,7 +26,7 @@ class _DiscoverState extends State<Discover> with AutomaticKeepAliveClientMixin 
         title: Text('discover')
       ),
       body: Container(
-        child: Text('discover ' + appModel.count.toString() + ' ' + appModel.homeCount.toString())
+        child: Text('discover ' + appModel.count.toString())
       ),
     );
   }

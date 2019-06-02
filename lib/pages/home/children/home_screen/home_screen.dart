@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xiaodemo/model/app_model.dart';
 import 'package:xiaodemo/router/router.dart';
-import '../../../route_test/page1/page1.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,10 +30,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       ),
       body: Container(
         child: RaisedButton(
-          child: Text(_testnum.toString() + ' ' + appModel.count.toString()+ ' ' + appModel.homeCount.toString()),
+          child: Text(_testnum.toString() + ' ' + appModel.count.toString()),
           onPressed: ()  async {
             appModel.increment();
-            appModel.homeIncrement();
             setState((){
               _testnum++;
             });
