@@ -147,6 +147,12 @@ class _Page2State extends State<Page2> {
                 appEvent.goPersonal(context, withAnimation: false);
               },
             ),
+            RaisedButton(
+              child: Text('跳转webview'),
+              onPressed: () {
+                flutor.push(context, name: 'webview', query: { 'url': 'http://127.0.0.1:8080/webview.html' });
+              },
+            ),
           ],
         ),
 

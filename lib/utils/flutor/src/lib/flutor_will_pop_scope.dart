@@ -9,8 +9,7 @@ class FlutorWillPopScope extends StatefulWidget {
     @required this.matchedRoute,
     @required this.onWillPop,
     this.observeGesture = false,
-  }) : assert(child != null),
-       super(key: key);
+  }): super(key: key);
 
   final Widget child;
 

@@ -8,7 +8,7 @@ import 'package:xiaodemo/pages/route_test/page2/page4/page5.dart';
 import 'package:xiaodemo/pages/route_test/page2/page4/page6.dart';
 import 'package:xiaodemo/pages/route_test/page2/page4/page7.dart';
 import 'package:xiaodemo/pages/route_test/page2/page4/page8.dart';
-import 'package:xiaodemo/pages/route_test/page_404/page_404.dart';
+
 
 List<Map<String, dynamic>> subRoutes =[
   {
@@ -139,12 +139,6 @@ List<Map<String, dynamic>> subRoutes =[
     'path': '/page/pagex/pagexx',
     'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
       return Page8();
-    },
-  },
-  {
-    'path': '*',
-    'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-      return NotFoundPage();
     },
   },
 ];

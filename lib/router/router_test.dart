@@ -9,7 +9,7 @@ import '../pages/route_test/page2/page4/page5.dart';
 import '../pages/route_test/page2/page4/page6.dart';
 import '../pages/route_test/page2/page4/page7.dart';
 import '../pages/route_test/page2/page4/page8.dart';
-import '../pages/route_test/page_404/page_404.dart';
+import '../pages/route_test/notfound/notfound.dart';
 
 /*
  * 1、引入函数是否需要是异步的以支持延迟加载库，这个待定，主要看是延迟加载是否对启动页时间有帮助
@@ -187,7 +187,7 @@ final Flutor flutor = Flutor(
     {
       'path': '*',
       'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
-        return NotFoundPage();
+        return NotFound();
       },
     },
   ],
