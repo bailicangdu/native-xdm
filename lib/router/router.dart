@@ -6,11 +6,11 @@ import 'package:xiaodemo/pages/notfound/notfound.dart';
 
 List<Map<String, dynamic>> routes = [
   {
-    'path': '/', // 默认路由，必填
+    'path': '/aaa', // 默认路由，必填
     'name': 'home',
     'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
       query = {'url': 'http://127.0.0.1:8080/webview.html' };
-      return XDWebView(params: params, query: query);
+      // return XDWebView(params: params, query: query);
       return Home();
     },
     'beforeEnter': (RouterNode to, RouterNode from) async {

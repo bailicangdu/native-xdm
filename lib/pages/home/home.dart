@@ -6,6 +6,22 @@ import './children/discover/discover.dart';
 import './children/orders/orders.dart';
 import './children/personal/personal.dart';
 
+class BottomBarItem {
+  BottomBarItem({ this.title, this.name, this.icon, this.widget });
+  final String title;
+  final String name;
+  final Icon icon;
+  final Widget widget;
+}
+
+final List<BottomBarItem> _bottomBarItems = <BottomBarItem>[
+  BottomBarItem(title: '首页', name: 'home', icon: Icon(XDIcons.home), widget: HomeScreen()),
+  BottomBarItem(title: '发现', name: 'discover', icon: Icon(XDIcons.discover), widget: Discover()),
+  BottomBarItem(title: '订单', name: 'orders', icon: Icon(XDIcons.orders), widget: Orders()),
+  BottomBarItem(title: '我的', name: 'personal', icon: Icon(XDIcons.personal), widget: Personal()),
+];
+
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -72,18 +88,3 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 }
-
-class BottomBarItem {
-  BottomBarItem({ this.title, this.name, this.icon, this.widget });
-  final String title;
-  final String name;
-  final Icon icon;
-  final Widget widget;
-}
-
-final List<BottomBarItem> _bottomBarItems = <BottomBarItem>[
-  BottomBarItem(title: '首页', name: 'home', icon: Icon(XDIcons.home), widget: HomeScreen()),
-  BottomBarItem(title: '发现', name: 'discover', icon: Icon(XDIcons.discover), widget: Discover()),
-  BottomBarItem(title: '订单', name: 'orders', icon: Icon(XDIcons.orders), widget: Orders()),
-  BottomBarItem(title: '我的', name: 'personal', icon: Icon(XDIcons.personal), widget: Personal()),
-];

@@ -12,7 +12,8 @@ import 'package:xiaodemo/pages/route_test/page2/page4/page8.dart';
 
 List<Map<String, dynamic>> subRoutes =[
   {
-    'path': '/page1/:id',
+    // 'path': '/page1/:id',
+    'path': '/',
     'name': 'page1',
     'widget': ({ Map<String, dynamic>params, Map<String, dynamic>query }) {
       return Page1();
