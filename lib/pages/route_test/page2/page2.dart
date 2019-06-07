@@ -35,74 +35,74 @@ class _Page2State extends State<Page2> {
             RaisedButton(
               child: Text('popTimes times == null'),
               onPressed: () {
-                flutor.popTimes(context);
+                router.popTimes(context);
               },
             ),
             RaisedButton(
               child: Text('popTimes times == 2'),
               onPressed: () {
-                flutor.popTimes(context, times: 2);
+                router.popTimes(context, times: 2);
               },
             ),
             RaisedButton(
               child: Text('popTimes times == 200'),
               onPressed: () {
-                flutor.popTimes(context, times: 200);
-                // flutor.push(context, name: 'page1');
+                router.popTimes(context, times: 200);
+                // router.push(context, name: 'page1');
               },
             ),
             RaisedButton(
               child: Text('popTimes times == -2'),
               onPressed: () {
-                flutor.popTimes(context, times: -2);
+                router.popTimes(context, times: -2);
               },
             ),
             RaisedButton(
               child: Text('remove times == null'),
               onPressed: () {
-                flutor.remove(context);
+                router.remove(context);
               },
             ),
             RaisedButton(
               child: Text('remove times == 2'),
               onPressed: () {
-                flutor.remove(context, times: 2);
+                router.remove(context, times: 2);
               },
             ),
             RaisedButton(
               child: Text('remove times == -2'),
               onPressed: () {
-                flutor.remove(context, times: -2);
+                router.remove(context, times: -2);
               },
             ),
             RaisedButton(
               child: Text('pushAndRemove times == 2'),
               onPressed: () {
-                flutor.pushAndRemove(context, times: 2, name: 'page1');
+                router.pushAndRemove(context, times: 2, name: 'page1');
               },
             ),
             RaisedButton(
               child: Text('pushAndRemove times == 0'),
               onPressed: () {
-                flutor.pushAndRemove(context, times: 0, name: 'page1');
+                router.pushAndRemove(context, times: 0, name: 'page1');
               },
             ),
             RaisedButton(
               child: Text('pushAndRemove times == -2'),
               onPressed: () {
-                flutor.pushAndRemove(context, times: -2, name: 'page1');
+                router.pushAndRemove(context, times: -2, name: 'page1');
               },
             ),
             RaisedButton(
               child: Text('pushAndRemove times == null'),
               onPressed: () {
-                flutor.pushAndRemove(context, name: 'page1');
+                router.pushAndRemove(context, name: 'page1');
               },
             ),
             RaisedButton(
               child: Text('跳转page'),
               onPressed: () {
-                flutor.push(context, name: 'page1');
+                router.push(context, name: 'page1');
               },
             ),
             RaisedButton(
@@ -117,9 +117,9 @@ class _Page2State extends State<Page2> {
                         child: const Text('Discard'),
                         isDestructiveAction: true,
                         onPressed: () {
-                          flutor.pop(context, 'Discard');
-                          // flutor.push(context, name: 'page1');
-                          // flutor.pushAndRemove(context, times: 1, name: 'page1');
+                          router.pop(context, 'Discard');
+                          // router.push(context, name: 'page1');
+                          // router.pushAndRemove(context, times: 1, name: 'page1');
                         },
                       ),
                       CupertinoDialogAction(
@@ -150,7 +150,7 @@ class _Page2State extends State<Page2> {
             RaisedButton(
               child: Text('跳转webview'),
               onPressed: () {
-                flutor.push(context, name: 'webview', query: { 'url': 'http://127.0.0.1:8080/webview.html' });
+                router.push(context, name: 'webview', query: { 'url': 'http://127.0.0.1:8080/webview.html' });
               },
             ),
           ],

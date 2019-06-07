@@ -27,7 +27,7 @@ class GetLeading extends StatelessWidget {
                   if (await controller.canGoBack()) {
                     controller.goBack();
                   } else {
-                    flutor.pop(context);
+                    router.pop(context);
                   }
                 },
         );

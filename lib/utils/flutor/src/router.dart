@@ -575,11 +575,38 @@ class Flutor {
     if (matchedRoute.route != null && matchedRoute.route.widget != null) {
       activeRoute = matchedRoute;
 
-      return FlutorPageRoute(
+      final Route nextPage = FlutorPageRoute(
         builder: (BuildContext context) => matchedRoute.route.widget(params: matchedRoute.params, query: matchedRoute.query),
         settings: settings,
         routeStyle: routeStyle,
       );
+
+      /// 为了保证app正常启动，首页的钩子并不会阻止页面的渲染，也就是说即便beforeEach和beforeEnter返回false
+      /// 页面也可以正常渲染，当然只是在初始化app的时候才会这样
+      final RouterNode nextRouteNode = RouterNode(nextPage, matchedRoute);
+
+      RouterNode lastRouteNode;
+      if (routeStack.isNotEmpty) {
+        lastRouteNode = routeStack[routeStack.length - 1];
+      } else {
+        lastRouteNode = RouterNode(null);
+      }
+
+      if (
+        lastRouteNode != null && 
+        lastRouteNode.flutorRoute != null && 
+        lastRouteNode.flutorRoute.route.beforeLeave != null
+      ) {
+        lastRouteNode.flutorRoute.route.beforeLeave(nextRouteNode, lastRouteNode);
+      }
+
+      if (beforeEach != null) beforeEach(nextRouteNode, lastRouteNode);
+
+      if (matchedRoute.route.beforeEnter != null) {
+        matchedRoute.route.beforeEnter(nextRouteNode, lastRouteNode);
+      }
+
+      return nextPage;
     } else {
       // 默认错误页
       return FlutorPageRoute(

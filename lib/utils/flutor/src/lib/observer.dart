@@ -54,6 +54,6 @@ class FlutorObserver extends NavigatorObserver {
 
   /// 全局的afterEach钩子
   handleAfter(RouterNode route, RouterNode previousRoute) {
-    target?.afterEach(route, previousRoute);
+    if (target.afterEach != null) target.afterEach(route, previousRoute);
   }
 }

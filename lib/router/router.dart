@@ -49,17 +49,17 @@ initRoutes(routeList) {
 /// 
 /// 也可以添加全局配置 observeGesture: true; 则不需要给单独路由添加配置，但是会禁止整个app的左滑关闭页面的操作
 /// 
-final Flutor flutor = Flutor(
+final Flutor router = Flutor(
   routes: initRoutes(routes),
   // 跳转之前，先执行全局钩子，再执行独享的钩子
   beforeEach: (RouterNode to, RouterNode from) async {
-    print('beforeEach: 当前路由: ' + to?.path + '  上一个路由: ' + from?.path);
+    print('beforeEach: 当前路由: ' + to.path + '  上一个路由: ' + from.path);
     return true;
   },
-  // 全局后置钩子无法阻止路由进行，所以要future没啥用
-  afterEach: (RouterNode to, RouterNode from) {
-    print('afterEach: 当前路由: ' + to?.path + '  上一个路由: ' + from?.path);
-  },
+  // // 全局后置钩子无法阻止路由进行，所以要future没啥用
+  // afterEach: (RouterNode to, RouterNode from) {
+  //   print('afterEach: 当前路由: ' + to.path + '  上一个路由: ' + from.path);
+  // },
   onError: (FlutorException error) {
     print(error);
   },

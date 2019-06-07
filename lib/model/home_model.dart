@@ -38,9 +38,9 @@ class HomeModel extends Model {
 
   pop(BuildContext context, [bool withAnimation = true]) {
   if (withAnimation) {
-      flutor.popTimes(context);
+      router.popTimes(context);
     } else {
-      flutor.remove(context);
+      router.remove(context);
     }
   }
 }

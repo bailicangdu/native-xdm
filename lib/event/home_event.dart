@@ -34,9 +34,9 @@ class HomeEvent {
   navigator(BuildContext context, [bool withAnimation = true]) {
     eventCenter.trigger('switchTab', homeBottomBarName);
     if (withAnimation) {
-      flutor.popTimes(context);
+      router.popTimes(context);
     } else {
-      flutor.remove(context);
+      router.remove(context);
     }
   }
 }

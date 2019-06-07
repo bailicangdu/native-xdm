@@ -29,9 +29,9 @@ class _MyAppState extends State<MyApp> {
         title: 'xiaodemo',
         // debugShowCheckedModeBanner: false, // 去除右上角debug标签
         theme: mainTheme.themeData,
-        onGenerateRoute: flutor.generateRoute,
+        onGenerateRoute: router.generateRoute,
         navigatorObservers: [
-          FlutorObserver(flutor), // 导航监听
+          FlutorObserver(router), // 导航监听
         ],
       ),
     );

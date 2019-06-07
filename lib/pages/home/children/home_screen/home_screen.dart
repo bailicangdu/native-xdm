@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
             });
             if (_testnum % 3 == 0) {
               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Page1()));
-              flutor.push(context, name: 'page1');
+              router.push(context, name: 'page1');
             }
           },
         ),

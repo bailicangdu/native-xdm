@@ -19,7 +19,7 @@ class _Page8State extends State<Page8> {
         child: RaisedButton(
           child: Text('page8'),
           onPressed: () {
-            flutor.pop(context);
+            router.pop(context);
           },
         ),
       ),

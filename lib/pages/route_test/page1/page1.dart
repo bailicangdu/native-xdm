@@ -44,165 +44,165 @@ class _Page1State extends State<Page1> {
                 RaisedButton(
                   child: Text('通过name跳转page2'),
                   onPressed: () {
-                    flutor.push(context, name: 'page2', query: { 'entryTime': DateTime.now().millisecondsSinceEpoch });
+                    router.push(context, name: 'page2', query: { 'entryTime': DateTime.now().millisecondsSinceEpoch });
                   },
                 ),
                 RaisedButton(
                   child: Text('通过path跳转page7'),
                   onPressed: () {
-                    flutor.push(context, path: '/page2/aaa//page6/bbb?a=1&b=2', params: { 'Page7': 'ccc' }, query: { 'c': 3 });
+                    router.push(context, path: '/page2/aaa//page6/bbb?a=1&b=2', params: { 'Page7': 'ccc' }, query: { 'c': 3 });
                   },
                 ),
                 RaisedButton(
                   child: Text('replace --- 跳转page7'),
                   onPressed: () {
-                    flutor.replace(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
+                    router.replace(context, name: 'page7',  params: { 'page4': 'aaa', 'Page7': 'bbb' }, query: {'a': 1, 'b': 2, 'c': 3 });
                   },
                 ),
                 RaisedButton(
                   child: Text('通过name跳转home'),
                   onPressed: () {
-                    flutor.push(context, name: 'home');
+                    router.push(context, name: 'home');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
-                  },
-                ),
-                RaisedButton(
-                  child: Text('通过pop跳转home'),
-                  onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
 
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
                 RaisedButton(
                   child: Text('通过pop跳转home'),
                   onPressed: () {
-                    flutor.pop(context, '我是来自page1的返回数据');
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('通过pop跳转home'),
+                  onPressed: () {
+                    router.pop(context, '我是来自page1的返回数据');
                   },
                 ),
 

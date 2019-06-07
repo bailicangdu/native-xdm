@@ -19,7 +19,7 @@ class _Page5State extends State<Page5> {
         child: RaisedButton(
           child: Text('page5'),
           onPressed: () {
-            flutor.pop(context, '我是从上个页面page5回来的');
+            router.pop(context, '我是从上个页面page5回来的');
           },
         ),
       ),
